@@ -26,12 +26,7 @@ jQuery(document).ready(function ($) {
 						$.getJSON(MyAcSearch.url+'?callback=?&action='+acs_action, req, response);  
 					},  
 					select: function(event, ui) {  
-            if( ui.item.target == '_blank' ) {
-              window.open(ui.item.link);  
-            } else {
-              window.location.href = ui.item.link;  
-            }
-				
+						window.location.href=ui.item.link;  
 					},  
 					minLength: 2,  
 				}).data( "ui-autocomplete" )._renderItem = function( ul, item ) {

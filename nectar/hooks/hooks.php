@@ -4,7 +4,7 @@
  *
  * @package Salient WordPress Theme
  * @subpackage hooks
- * @version 12.2
+ * @version 10.5
  */
 
 // Exit if accessed directly
@@ -56,30 +56,6 @@ function nectar_hook_pull_right_menu_items() {
 }
 
 /**
- * Pull left menu items.
- */
-function nectar_hook_pull_left_menu_items() {
-	do_action( 'nectar_hook_pull_left_menu_items' );
-}
-
-/**
- * Before button menu items.
- */
-function nectar_hook_before_button_menu_items() {
-	do_action( 'nectar_hook_before_button_menu_items' );
-}
-
-/**
- * Mobile menu items.
- */
-function nectar_hook_mobile_header_menu_items() {
-	do_action( 'nectar_hook_mobile_header_menu_items' );
-}
-function nectar_hook_mobile_header_before_logo() {
-	do_action( 'nectar_hook_mobile_header_before_logo' );
-}
-
-/**
  * Secondary header layout menu items.
  */
 function nectar_hook_secondary_header_menu_items() {
@@ -122,26 +98,6 @@ function nectar_hook_ocm_bottom_meta() {
 	do_action( 'nectar_hook_ocm_bottom_meta' );
 }
 
-/**
- *Before footer open.
- */
-function nectar_hook_before_container_wrap_close() {
-	do_action( 'nectar_hook_before_container_wrap_close' );
-}
-
-/**
- *Before footer open.
- */
-function nectar_hook_before_footer_open() {
-	do_action( 'nectar_hook_before_footer_open' );
-}
-
-/**
- *After footer open.
- */
-function nectar_hook_after_footer_open() {
-	do_action( 'nectar_hook_after_footer_open' );
-}
 
 /**
  * Before footer widgets.

@@ -8,10 +8,7 @@
 	#redux-header {
 		background-color: #3555ff!important;
 	}
-	.redux-container #redux-intro-text, 
-	.redux-main #redux-sticky #info_bar .expand_options { 
-		display: none;
-	}
+	.redux-container #redux-intro-text, .redux-main #redux-sticky #info_bar .expand_options { display: none;}
 	.redux-container #redux-header {
 		padding: 0;
 		border: none;
@@ -209,14 +206,6 @@
 
 	.redux-container-image_select .redux-image-select img {
 		margin: 5px;
-	}
-	
-	.redux-container-image_select[data-id="header_format"] ul li.redux-image-select {
-		max-width: 30%;
-		padding: 1%;
-	}
-	[data-id="header_format"] li.redux-image-select img {
-		width: 100%;
 	}
 	
 	#salient_redux-single_portfolio_project_layout .redux-image-select li {
@@ -665,52 +654,6 @@ fieldset[id*="salient_redux"] .switch-options.activated:before {
 	border: 2px solid #3555ff;
 	border-radius: 10px;
 	padding: 10px;
-}
-
-#redux-footer #redux-share a.salient-options-link {
-	color: #000;
-	opacity: 0.6;
-	position: relative;
-	font-size: 12px;
-	padding: 12px 0;
-	line-height: 12px;
-	display: inline-block;
-	transition: opacity 0.3s ease;
-	font-weight: 600;
-}
-#redux-footer #redux-share a.salient-options-link:before {
-	position: absolute;
-	left: 0;
-	bottom: 7px;
-	width: 100%;
-	height: 1px;
-	content: '';
-	transition: transform 0.3s ease;
-	transform-origin: left;
-	transform: scaleX(0);
-	background-color: #000;
-}
-#redux-footer #redux-share a.salient-options-link:hover {
-	opacity: 1;
-}
-#redux-footer #redux-share a.salient-options-link:hover:before {
-	transform: scaleX(1);
-}
-
-@media only screen and (max-width: 1200px) {
-	#redux-footer #redux-share a:first-child {
-		display: none;
-	}
-}
-@media only screen and (max-width: 1100px) {
-	#redux-footer #redux-share a:nth-child(3) {
-		display: none;
-	}
-}
-@media only screen and (max-width: 1023px) {
-	#redux-footer #redux-share {
-		display: none;
-	}
 }
 
 
