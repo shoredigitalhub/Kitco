@@ -158,7 +158,7 @@
                         }
                     }
                     echo '<div class="field-dimensions-input input-prepend">';
-                    echo '<span class="add-on"><i class="el el-resize-horizontal icon-large"></i></span>';
+                    echo '<span class="add-on"><i class="el el-resize-horizontal"></i></span>';
                     echo '<input type="text" class="redux-dimensions-input redux-dimensions-width mini ' . esc_attr( $this->field['class'] ) . '" placeholder="' . __( 'Width', 'redux-framework' ) . '" rel="' . esc_attr( $this->field['id'] ) . '-width" value="' . filter_var( $this->value['width'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION ) . '">';
                     echo '<input data-id="' . esc_attr( $this->field['id'] ) . '" type="hidden" id="' . esc_attr( $this->field['id'] ) . '-width" name="' . esc_attr( $this->field['name'] ) . esc_attr( $this->field['name_suffix'] ) . '[width]' . '" value="' . esc_attr( $this->value['width'] ) . '"></div>';
                 }
@@ -174,7 +174,7 @@
                         }
                     }
                     echo '<div class="field-dimensions-input input-prepend">';
-                    echo '<span class="add-on"><i class="el el-resize-vertical icon-large"></i></span>';
+                    echo '<span class="add-on"><i class="el el-resize-vertical"></i></span>';
                     echo '<input type="text" class="redux-dimensions-input redux-dimensions-height mini ' . esc_attr( $this->field['class'] ) . '" placeholder="' . __( 'Height', 'redux-framework' ) . '" rel="' . esc_attr( $this->field['id'] ) . '-height" value="' . filter_var( $this->value['height'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION ) . '">';
                     echo '<input data-id="' . esc_attr( $this->field['id'] ) . '" type="hidden" id="' . esc_attr( $this->field['id'] ) . '-height" name="' . esc_attr( $this->field['name'] ) . esc_attr( $this->field['name_suffix'] ) . '[height]' . '" value="' . esc_attr( $this->value['height'] ) . '"></div>';
                 }

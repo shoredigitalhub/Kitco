@@ -33,7 +33,7 @@ if ( ! empty( $nectar_options['cta-text'] ) && ! in_array( $post->ID, $exclude_p
 			if ( $cta_btn_color !== 'see-through' ) {
 				echo 'regular-button ';}
 
-		  echo esc_html( $cta_btn_color ); ?>" data-color-override="false" href="<?php echo esc_url( $cta_link ); ?>">
+		  echo esc_html( $cta_btn_color ); ?>" data-color-override="false" href="<?php echo esc_attr( $cta_link ); ?>">
 		  <?php
 			if ( ! empty( $nectar_options['cta-btn'] ) ) {
 				echo wp_kses_post( $nectar_options['cta-btn'] );}

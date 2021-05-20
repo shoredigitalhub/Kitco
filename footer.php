@@ -3,7 +3,7 @@
 * The template for displaying the footer.
 *
 * @package Salient WordPress Theme
-* @version 10.5
+* @version 12.2
 */
 
 // Exit if accessed directly
@@ -14,11 +14,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 $nectar_options = get_nectar_theme_options();
 $header_format  = ( !empty($nectar_options['header_format']) ) ? $nectar_options['header_format'] : 'default';
 
+nectar_hook_before_footer_open();
+
 ?>
 
 <div id="footer-outer" <?php nectar_footer_attributes(); ?>>
 	
 	<?php
+	
+	nectar_hook_after_footer_open();
 	
 	get_template_part( 'includes/partials/footer/call-to-action' );
 	

@@ -29,7 +29,7 @@ $nectar_post_class_additions = ' masonry-blog-item';
         
         <?php get_template_part( 'includes/partials/blog/media/play-button-transparent' ); ?>
         
-        <a class="entire-meta-link" href="<?php the_permalink(); ?>"></a>
+        <a class="entire-meta-link" href="<?php the_permalink(); ?>" aria-label="<?php the_title(); ?>"></a>
         
         <?php
         

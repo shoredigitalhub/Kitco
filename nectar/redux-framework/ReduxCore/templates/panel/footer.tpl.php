@@ -20,33 +20,31 @@
             }
 ?>
             <div id="redux-share">
-<?php 
-                foreach ( $this->parent->args['share_icons'] as $link ) {
-                    if ($skip_icons) {
-                        continue;
-                    }
-                    
-                    // SHIM, use URL now
-                    if ( isset( $link['link'] ) && ! empty( $link['link'] ) ) {
-                        $link['url'] = $link['link'];
-                        unset( $link['link'] );
-                    }
-?>
-                    <a href="<?php echo esc_url( $link['url'] ) ?>" title="<?php echo esc_attr( $link['title'] ); ?>" target="_blank">
-                        <?php if ( isset( $link['icon'] ) && ! empty( $link['icon'] ) ) : ?>
-                            <i class="<?php
-                                if ( strpos( $link['icon'], 'el-icon' ) !== false && strpos( $link['icon'], 'el ' ) === false ) {
-                                    $link['icon'] = 'el ' . $link['icon'];
-                                }
-                                echo esc_attr( $link['icon'] );
-                            ?>"></i>
-                        <?php else : ?>
-                            <img src="<?php echo esc_url( $link['img'] ); ?>"/>
-                        <?php endif; ?>
-
-                    </a>
-                <?php } ?>
-
+                <?php 
+                // nectar addition 
+                $ext_links = array(
+                  array(
+                    'text' => esc_html__('Facebook','salient'),
+                    'link' => esc_url('http://www.facebook.com/ThemeNectar-488077244574702/')
+                  ),
+                  array(
+                    'text' => esc_html__('Support Forum','salient'),
+                    'link' => esc_url('https://themenectar.ticksy.com/')
+                  ),
+                  array(
+                    'text' => esc_html__('Changelog','salient'),
+                    'link' => esc_url('http://themenectar.com/changelogs/salient.html')
+                  ),
+                  array(
+                    'text' => esc_html__('Documentation','salient'),
+                    'link' => esc_url('http://themenectar.com/docs/salient')
+                  ),
+                );
+                foreach($ext_links as $k => $data) {
+                  echo '<a class="salient-options-link" href="'.esc_attr($data['link']).'" rel="noreferrer" target="_blank">'.esc_html($data['text']).'</a>';
+                }
+                // nectar addition end
+                ?>
             </div>
         <?php } ?>
 

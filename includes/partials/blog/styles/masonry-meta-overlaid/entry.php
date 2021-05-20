@@ -18,7 +18,13 @@ global $nectar_options;
 $masonry_size_pm             = get_post_meta( $post->ID, '_post_item_masonry_sizing', true );
 $masonry_item_sizing         = ( ! empty( $masonry_size_pm ) ) ? $masonry_size_pm : 'regular';
 $nectar_post_class_additions = $masonry_item_sizing . ' masonry-blog-item';
+$date_functionality = (isset($nectar_options['post_date_functionality']) && !empty($nectar_options['post_date_functionality'])) ? $nectar_options['post_date_functionality'] : 'published_date';
 
+if( 'last_editied_date' === $date_functionality ) {
+  $date = get_the_modified_date();
+} else {
+  $date = get_the_date();
+}
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class( $nectar_post_class_additions ); ?>>  
@@ -77,12 +83,12 @@ $nectar_post_class_additions = $masonry_item_sizing . ' masonry-blog-item';
             $width  = ( 'large_featured' === $img_size ) ? '1000' : '500';
             $height = ( 'large_featured' === $img_size  ) ? '412' : '500';
             
-            echo '<a href="' . esc_url( get_permalink() ) . '"><span class="post-featured-img">';
+            echo '<a href="' . esc_url( get_permalink() ) . '" aria-label="'.get_the_title().'"><span class="post-featured-img">';
             echo '<img class="nectar-lazy skip-lazy wp-post-image" alt="'.esc_attr($alt_tag).'" height="'.esc_attr($height).'" width="'.esc_attr($width).'" data-nectar-img-src="'.esc_attr($img_src[0]).'" data-nectar-img-srcset="'.esc_attr($img_srcset).'" sizes="'.esc_attr($image_attrs['sizes']).'" />';
             echo '</span></a>';
             
           } else {
-            echo '<a href="' . esc_url( get_permalink() ) . '"><span class="post-featured-img">' . get_the_post_thumbnail( $post->ID, $img_size, $image_attrs ) . '</span></a>';
+            echo '<a href="' . esc_url( get_permalink() ) . '" aria-label="'.get_the_title().'"><span class="post-featured-img">' . get_the_post_thumbnail( $post->ID, $img_size, $image_attrs ) . '</span></a>';
           }
           
           
@@ -114,7 +120,7 @@ $nectar_post_class_additions = $masonry_item_sizing . ' masonry-blog-item';
             <div class="post-meta">
               
               <div class="date">
-                <?php echo get_the_date(); ?>
+                <?php echo esc_html($date); ?>
               </div>
               
             </div>

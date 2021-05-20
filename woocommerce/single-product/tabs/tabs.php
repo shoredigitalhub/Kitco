@@ -31,14 +31,14 @@ $product_tabs = apply_filters( 'woocommerce_product_tabs', array() );
 global $nectar_options;
 
 $tab_style      = (!empty($nectar_options['product_tab_position'])) ? $nectar_options['product_tab_position'] : 'default';
-$fullwidth_tabs = (!empty($nectar_options['product_tab_position']) && $nectar_options['product_tab_position'] === 'fullwidth' || !empty($nectar_options['product_tab_position']) && $nectar_options['product_tab_position'] === 'fullwidth_centered') ? true : false;
+$fullwidth_tabs = (!empty($nectar_options['product_tab_position']) && in_array($nectar_options['product_tab_position'], array('fullwidth','fullwidth_centered')) ) ? true : false;
 
 if ( ! empty( $product_tabs ) ) : ?>
 
 	<div class="woocommerce-tabs wc-tabs-wrapper <?php if($fullwidth_tabs === true) echo 'full-width-tabs'; ?>" data-tab-style="<?php echo esc_attr( $tab_style ); ?>">
-		
+
 		<?php if($fullwidth_tabs === true) echo '<div class="full-width-content" data-tab-style="'. $tab_style .'"> <div class="tab-container container">'; ?>
-			
+
 		<ul class="tabs wc-tabs" role="tablist">
 			<?php foreach ( $product_tabs as $key => $product_tab ) : ?>
 				<li class="<?php echo esc_attr( $key ); ?>_tab" id="tab-title-<?php echo esc_attr( $key ); ?>" role="tab" aria-controls="tab-<?php echo esc_attr( $key ); ?>">
@@ -48,9 +48,9 @@ if ( ! empty( $product_tabs ) ) : ?>
 				</li>
 			<?php endforeach; ?>
 		</ul>
-		
+
 		<?php if($fullwidth_tabs === true) echo '</div></div>'; ?>
-		
+
 		<?php foreach ( $product_tabs as $key => $product_tab ) : ?>
 			<div class="woocommerce-Tabs-panel woocommerce-Tabs-panel--<?php echo esc_attr( $key ); ?> panel entry-content wc-tab" id="tab-<?php echo esc_attr( $key ); ?>" role="tabpanel" aria-labelledby="tab-title-<?php echo esc_attr( $key ); ?>">
 				<?php

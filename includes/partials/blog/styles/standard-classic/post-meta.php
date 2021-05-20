@@ -4,7 +4,7 @@
 *
 * Used when "Classic" standard style is selected.
 *
-* @version 12.0
+* @version 12.5
 */
 
 // Exit if accessed directly
@@ -24,13 +24,24 @@ if( function_exists('nectar_social_sharing_output') && '1' === $remove_nectar_lo
 ?>
 
 <div class="post-meta" data-love="<?php echo esc_attr($use_nectar_love); ?>">
-  
+  <?php 
+    $date_functionality = (isset($nectar_options['post_date_functionality']) && !empty($nectar_options['post_date_functionality'])) ? $nectar_options['post_date_functionality'] : 'published_date';
+    if( 'last_editied_date' === $date_functionality ) {
+      $month = get_the_modified_time('M');
+      $day = get_the_modified_time('d');
+      $year = get_the_modified_time('Y');
+    } else {
+      $month = get_the_time( 'M' );
+      $day = get_the_time( 'd' );
+      $year = get_the_time( 'Y' );
+    }
+  ?>
   <div class="date">
-    <span class="month"><?php the_time( 'M' ); ?></span>
-    <span class="day"><?php the_time( 'd' ); ?></span>
+    <span class="month"><?php echo esc_html($month); ?></span>
+    <span class="day"><?php echo esc_html($day); ?></span>
     <?php
     if ( ! empty( $nectar_options['display_full_date'] ) && $nectar_options['display_full_date'] === '1' ) {
-      echo '<span class="year">' . get_the_time( 'Y' ) . '</span>';
+      echo '<span class="year">' . esc_html($year) . '</span>';
     } 
     ?>
   </div>

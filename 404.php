@@ -3,7 +3,7 @@
  * The template for 404 not found.
  *
  * @package Salient WordPress Theme
- * @version 10.5
+ * @version 13.0
  */
 
 // Exit if accessed directly
@@ -57,6 +57,6 @@ $page_404_home_button      = ( ! empty( $nectar_options['page-404-home-button'] 
 		</div><!--/row-->
 		
 	</div><!--/container-->
-
+	<?php nectar_hook_before_container_wrap_close(); ?>
 </div><!--/container-wrap-->
 <?php get_footer(); ?>

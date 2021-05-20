@@ -692,9 +692,17 @@ if ( ! class_exists( 'ReduxFramework_typography' ) ) {
                 if(!empty($filteredSubsets))
                    $link .= "&subset=" . implode( ',', $filteredSubsets );
             }
+          
+            $nectar_options = get_nectar_theme_options();
+            $display_swap_str = '';
+            
+            if( isset($nectar_options['typography_font_swap']) && !empty($nectar_options['typography_font_swap']) && '1' === $nectar_options['typography_font_swap'] ) {
+              $display_swap_str = '&display=swap';
+            }
+    
+            return '//fonts.googleapis.com/css?family=' . str_replace( '|', '%7C', $link ) . $display_swap_str;
+            
             /* nectar addition end */
-
-            return '//fonts.googleapis.com/css?family=' . str_replace( '|', '%7C', $link );
         }
 
         /**

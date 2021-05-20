@@ -679,6 +679,7 @@ body .blog-recent[data-style].columns-1 div:nth-child(1n+1){
 .blog-recent[data-style="list_featured_first_row"] .featured .img-thumbnail {
   width: 100%;
   background-size: cover;
+  background-position: center;
   padding-bottom: 65%;
   display: block;
 }
@@ -830,7 +831,7 @@ body .blog-recent[data-style].columns-1 div:nth-child(1n+1){
      float: none;
 }
  .blog-recent[data-style="list_featured_first_row"] .featured .post-featured-img {
-     padding-bottom: 160%;
+     padding-bottom: 145%;
      background-position: center;
      background-size: cover;
 }

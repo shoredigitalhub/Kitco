@@ -182,7 +182,7 @@
         .addClass('fp-auto-height')
         .addClass('fp-section')
         .addClass('wpb_row')
-        .attr('data-anchor',' ')
+        .attr('data-anchor','')
         .wrapInner('<div class="span_12" />')
         .wrapInner('<div class="container" />')
         .wrapInner('<div class="full-page-inner" />')
@@ -529,7 +529,7 @@
     $('.nectar-fancy-ul[data-animation="true"] ul li').css({'opacity':'0','left':'-20px'});
     
     // Progress bars
-    $('.nectar-progress-bar').parent().removeClass('completed');
+    $('.nectar-progress-bar').removeClass('completed');
     $('.nectar-progress-bar .bar-wrap > span').css({'width':'0px'});
     $('.nectar-progress-bar .bar-wrap > span > strong').css({'opacity':'0'});
     
@@ -554,7 +554,16 @@
     // Split line
     $('.nectar-split-heading').removeClass('animated-in');
     $('.nectar-split-heading .heading-line > div').css({'transform':'translate(0,200%)'});
-    $('.nectar-split-heading[data-animation-type="line-reveal-by-space"] .inner').css({'transform':'translate(0,130%)'});
+    $('.nectar-split-heading[data-animation-type="line-reveal-by-space"] .inner').css({'transform':'translate(0,1.2em)'});
+    
+    // Rotating Text.
+    $('.nectar-rotating-words-title.element_stagger_words').removeClass('animated-in');
+    $('.nectar-rotating-words-title.element_stagger_words .text-wrap > span').css({'transform':'translate(0,1.2em)'});
+    
+    // Woo Carousel
+    $('.nectar-woo-flickity[data-animation*="fade"]').removeClass('animated-in');
+    $('.nectar-woo-flickity[data-animation="fade-in-bottom"] ul.products .flickity-cell').css({'opacity':'0','transform':'translate3d(0,70px,0)'});
+    $('.nectar-woo-flickity[data-animation="fade-in-side"] ul.products .flickity-cell').css({'opacity':'0','transform':'translate3d(70px,0,0)'});
     
     // Image with hotspots
     $('.nectar_image_with_hotspots[data-animation="true"]').removeClass('completed');
@@ -700,6 +709,7 @@
               that.nectarLiquidBGFP();
             }
             that.responsiveTooltips();
+            $(window).trigger('nectar-waypoints-reinit');
           }
           
           if($row_id !='footer-outer') {

@@ -1,9 +1,9 @@
 <?php
 /**
- * The template for displaying the Blog ijndex.
+ * The template for displaying the Blog index.
  *
  * @package Salient WordPress Theme
- * @version 10.5
+ * @version 13.0
  */
  
 // Exit if accessed directly.
@@ -29,20 +29,20 @@ get_header(); ?>
 				$blog_type = 'std-blog-sidebar';
 			}
 
-			$masonry_class         = null;
-			$masonry_style         = null;
+      $masonry_class         = null;
+      $masonry_style         = null;
       $masonry_style_parsed  = null;
       $standard_style_parsed = null;
-			$infinite_scroll_class = null;
-			$load_in_animation     = ( ! empty( $nectar_options['blog_loading_animation'] ) ) ? $nectar_options['blog_loading_animation'] : 'none';
-			$blog_standard_type    = ( ! empty( $nectar_options['blog_standard_type'] ) ) ? $nectar_options['blog_standard_type'] : 'classic';
-			$enable_ss             = ( ! empty( $nectar_options['blog_enable_ss'] ) ) ? $nectar_options['blog_enable_ss'] : 'false';
-			$auto_masonry_spacing  = ( ! empty( $nectar_options['blog_auto_masonry_spacing'] ) ) ? $nectar_options['blog_auto_masonry_spacing'] : '4px';
-
-			$remove_post_date           = ( ! empty( $nectar_options['blog_remove_post_date'] ) ) ? $nectar_options['blog_remove_post_date'] : '0';
-			$remove_post_author         = ( ! empty( $nectar_options['blog_remove_post_author'] ) ) ? $nectar_options['blog_remove_post_author'] : '0';
-			$remove_post_comment_number = ( ! empty( $nectar_options['blog_remove_post_comment_number'] ) ) ? $nectar_options['blog_remove_post_comment_number'] : '0';
-			$remove_post_nectar_love    = ( ! empty( $nectar_options['blog_remove_post_nectar_love'] ) ) ? $nectar_options['blog_remove_post_nectar_love'] : '0';
+      $infinite_scroll_class = null;
+      $load_in_animation     = ( ! empty( $nectar_options['blog_loading_animation'] ) ) ? $nectar_options['blog_loading_animation'] : 'none';
+      $blog_standard_type    = ( ! empty( $nectar_options['blog_standard_type'] ) ) ? $nectar_options['blog_standard_type'] : 'classic';
+      $enable_ss             = ( ! empty( $nectar_options['blog_enable_ss'] ) ) ? $nectar_options['blog_enable_ss'] : 'false';
+      $auto_masonry_spacing  = ( ! empty( $nectar_options['blog_auto_masonry_spacing'] ) ) ? $nectar_options['blog_auto_masonry_spacing'] : '4px';
+      
+      $remove_post_date           = ( ! empty( $nectar_options['blog_remove_post_date'] ) ) ? $nectar_options['blog_remove_post_date'] : '0';
+      $remove_post_author         = ( ! empty( $nectar_options['blog_remove_post_author'] ) ) ? $nectar_options['blog_remove_post_author'] : '0';
+      $remove_post_comment_number = ( ! empty( $nectar_options['blog_remove_post_comment_number'] ) ) ? $nectar_options['blog_remove_post_comment_number'] : '0';
+      $remove_post_nectar_love    = ( ! empty( $nectar_options['blog_remove_post_nectar_love'] ) ) ? $nectar_options['blog_remove_post_nectar_love'] : '0';
 
 			// Enqueue masonry script if selected.
 			if ( $blog_type === 'masonry-blog-sidebar' || 
@@ -96,6 +96,8 @@ get_header(); ?>
 
 			add_filter( 'wp_get_attachment_image_attributes', 'nectar_remove_lazy_load_functionality' );
       
+      do_action('nectar_before_blog_loop_content');
+      
       // Main post loop.
 			if ( have_posts() ) :
 				while ( have_posts() ) :
@@ -121,6 +123,8 @@ get_header(); ?>
 
 				endwhile;
 			endif;
+      
+      do_action('nectar_after_blog_loop_content');
 
 			?>
 				
@@ -144,7 +148,7 @@ get_header(); ?>
 		</div><!--/row-->
 		
 	</div><!--/container-->
-
+  <?php nectar_hook_before_container_wrap_close(); ?>
 </div><!--/container-wrap-->
 	
 <?php get_footer(); ?>

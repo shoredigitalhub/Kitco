@@ -4,7 +4,7 @@
  *
  * @package Salient WordPress Theme
  * @subpackage Partials
- * @version 10.5
+ * @version 13.0
  */
 
 // Exit if accessed directly
@@ -19,11 +19,9 @@ $nectar_options = get_nectar_theme_options();
 $bg                                = get_post_meta( $post->ID, '_nectar_header_bg', true );
 $bg_color                          = get_post_meta( $post->ID, '_nectar_header_bg_color', true );
 $single_post_header_inherit_fi     = ( ! empty( $nectar_options['blog_post_header_inherit_featured_image'] ) ) ? $nectar_options['blog_post_header_inherit_featured_image'] : '0';
-$theme_skin                        = ( ! empty( $nectar_options['theme-skin'] ) ) ? $nectar_options['theme-skin'] : 'original';
-$header_format = (!empty($nectar_options['header_format'])) ? $nectar_options['header_format'] : 'default';
-if( $header_format === 'centered-menu-bottom-bar' ) {
-  $theme_skin = 'material';
-}	
+
+$theme_skin = NectarThemeManager::$skin;
+
 $fullscreen_header                 = ( ! empty( $nectar_options['blog_header_type'] ) && $nectar_options['blog_header_type'] === 'fullscreen' && is_singular( 'post' ) ) ? true : false;
 $fullscreen_class                  = ( $fullscreen_header === true ) ? 'fullscreen-header full-width-content' : null;
 $remove_single_post_date           = ( ! empty( $nectar_options['blog_remove_single_date'] ) ) ? $nectar_options['blog_remove_single_date'] : '0';
@@ -38,9 +36,9 @@ if( $single_post_header_inherit_fi === '1' && isset( $post->ID ) && has_post_thu
 }
 
 if ( empty( $bg ) && empty( $bg_color ) && $inherit_and_has_featured_img !== true ) { ?>
-  <div id="page-header-wrap" data-animate-in-effect="none" data-midnight="light" class="fullscreen-header">	
+  <div id="page-header-wrap" data-animate-in-effect="none" data-midnight="light" class="fullscreen-header">
   <div class="default-blog-title fullscreen-header hentry" id="page-header-bg" data-midnight="light" data-alignment-v="middle" data-alignment="center" data-parallax="0" data-height="450" data-remove-post-date="<?php echo esc_attr( $remove_single_post_date ); ?>" data-remove-post-author="<?php echo esc_attr( $remove_single_post_author ); ?>" data-remove-post-comment-number="<?php echo esc_attr( $remove_single_post_comment_number ); ?>">
-		<div class="container">	
+		<div class="container">
 			<div class="row">
 				<div class="col span_6 section-title blog-title">
 					<div class="inner-wrap">
@@ -58,24 +56,29 @@ if ( empty( $bg ) && empty( $bg_color ) && $inherit_and_has_featured_img !== tru
 						?>
 						<h1 class="entry-title"><?php the_title(); ?></h1>
 						<div class="author-section">
-							<span class="meta-author">  
+							<span class="meta-author">
 								<?php
 								if ( function_exists( 'get_avatar' ) ) {
 									echo get_avatar( get_the_author_meta( 'email' ), 100 ); }
 									?>
-								</span> 
+								</span>
 								<div class="avatar-post-info vcard author">
 									<span class="fn"><?php the_author_posts_link(); ?></span>
 									<?php
-									$nectar_u_time          = get_the_time( 'U' );
-									$nectar_u_modified_time = get_the_modified_time( 'U' );
-									if( $nectar_u_modified_time >= $nectar_u_time + 86400 ) {
-										?>
-										<span class="meta-date date published"><i><?php echo get_the_date(); ?></i></span>
-										<span class="meta-date date updated rich-snippet-hidden"><?php echo get_the_modified_time( __( 'F jS, Y' , 'salient' ) ); ?></span>
-									<?php } else { ?>
-										<span class="meta-date date updated"><i><?php echo get_the_date(); ?></i></span>
-									<?php } ?>
+									$date_functionality = (isset($nectar_options['post_date_functionality']) && !empty($nectar_options['post_date_functionality'])) ? $nectar_options['post_date_functionality'] : 'published_date';
+									if( 'last_editied_date' === $date_functionality ) {
+										echo '<span class="meta-date date updated"><i>'.get_the_modified_time(__( 'F jS, Y' , 'salient' )).'</i></span>';
+									} else {
+										$nectar_u_time          = get_the_time( 'U' );
+										$nectar_u_modified_time = get_the_modified_time( 'U' );
+										if( $nectar_u_modified_time >= $nectar_u_time + 86400 ) {
+											?>
+											<span class="meta-date date published"><i><?php echo get_the_date(); ?></i></span>
+											<span class="meta-date date updated rich-snippet-hidden"><?php echo get_the_modified_time( __( 'F jS, Y' , 'salient' ) ); ?></span>
+										<?php } else { ?>
+											<span class="meta-date date updated"><i><?php echo get_the_date(); ?></i></span>
+										<?php }
+									} ?>
 								</div>
 							</div><!--/author-section-->
 						</div><!--/inner-wrap-->
@@ -84,8 +87,8 @@ if ( empty( $bg ) && empty( $bg_color ) && $inherit_and_has_featured_img !== tru
 			</div><!--/container-->
 	<?php
 	$button_styling = ( ! empty( $nectar_options['button-styling'] ) ) ? $nectar_options['button-styling'] : 'default';
-	$header_down_arrow_style = (!empty($nectar_options['header-down-arrow-style'])) ? $nectar_options['header-down-arrow-style'] : 'default'; 
-	
+	$header_down_arrow_style = (!empty($nectar_options['header-down-arrow-style'])) ? $nectar_options['header-down-arrow-style'] : 'default';
+
 	if( $header_down_arrow_style === 'animated-arrow' ) {
 		echo '<div class="scroll-down-wrap minimal-arrow nectar-next-section-wrap"><a href="#" class="minimal-arrow">
 			<svg class="next-arrow" width="40px" height="68px" viewBox="0 0 40 50" xml:space="preserve">
@@ -93,7 +96,7 @@ if ( empty( $bg ) && empty( $bg_color ) && $inherit_and_has_featured_img !== tru
 			<polyline stroke="#ffffff" stroke-width="2" fill="none" points="12, 44 20, 52 28, 44"></polyline>
 			</svg>
 		</a></div>';
-	} 
+	}
 	elseif ( $button_styling === 'default' ) {
 		echo '<div class="scroll-down-wrap"><a href="#" class="section-down-arrow"><i class="icon-salient-down-arrow icon-default-style"> </i></a></div>';
 	} elseif ( $button_styling === 'slightly_rounded' || $button_styling === 'slightly_rounded_shadow' ) {

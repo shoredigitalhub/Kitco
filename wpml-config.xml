@@ -39,7 +39,9 @@
   </custom-fields>
   <admin-texts>
     <key name="salient_redux">
+      <key name="header-search-ph-text"/>
       <key name="secondary-header-text"/>
+      <key name="secondary-header-link"/>
       <key name="footer-copyright-text"/>
       <key name="cta-text"/>
       <key name="cta-btn"/>
@@ -49,6 +51,7 @@
       <key name="portfolio-sortable-text"/>
       <key name="main-portfolio-link"/>
       <key name="header-account-button-url"/>
+      <key name="header-slide-out-widget-area-bottom-text"/>
       <key name="recent-posts-title"/>
       <key name="recent-posts-link"/>
     </key>
@@ -70,6 +73,7 @@
             <tag>nectar_btn</tag>
             <attributes>
                 <attribute>text</attribute>
+                <attribute>url</attribute>
             </attributes>
       </shortcode>
       <shortcode>
@@ -132,7 +136,7 @@
             <attributes>
                 <attribute>name</attribute>
                 <attribute>job_position</attribute>
-                <attribute>team_member_bio</attribute>
+                <attribute type="area">team_member_bio</attribute>
             </attributes>
       </shortcode>
       <shortcode>
@@ -140,6 +144,13 @@
             <attributes>
                 <attribute>link_url</attribute>
                 <attribute>link_text</attribute>
+                <attribute type="area">hover_content</attribute>
+            </attributes>
+      </shortcode>
+      <shortcode>
+            <tag>nectar_flip_box</tag>
+            <attributes>
+                <attribute type="area">front_content</attribute>
             </attributes>
       </shortcode>
       <shortcode>
@@ -196,6 +207,12 @@
             <tag>nectar_icon_list</tag>
       </shortcode>
       <shortcode>
+            <tag>nectar_single_testimonial</tag>
+            <attributes>
+                <attribute>quote</attribute>
+            </attributes>
+      </shortcode>
+      <shortcode>
             <tag>nectar_icon_list_item</tag>
             <attributes>
                 <attribute>header</attribute>
@@ -225,6 +242,9 @@
       </shortcode>
       <shortcode>
             <tag>carousel</tag>
+            <attributes>
+                <attribute type="area">flickity_fixed_content</attribute>
+            </attributes>
       </shortcode>
       <shortcode>
             <tag>item</tag>

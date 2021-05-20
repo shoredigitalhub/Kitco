@@ -89,6 +89,7 @@ $nectar_header_options = nectar_get_header_variables();
 					
 				</div><!--/row-->
 			</div><!--/container-->
+			<?php nectar_hook_before_container_wrap_close(); ?>
 		</div><!--/container-wrap-->
 		
 		<?php get_footer(); ?>
