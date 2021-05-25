@@ -24,6 +24,8 @@
 	
 	?>
 	
+	
+	
 </head>
 
 <?php
@@ -62,8 +64,8 @@ $nectar_header_options = nectar_get_header_variables();
 		
 		get_template_part( 'includes/partials/header/header-menu' );
 		
-		
 		?>
+		
 		
 	</div>
 	

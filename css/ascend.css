@@ -1050,7 +1050,8 @@ body.ascend .mfp-arrow-right,
 .container-wrap input[type="search"],
 .container-wrap input[type="date"] {
     background-color:transparent;
-    border:1px solid #ccc;
+    border-bottom:1px solid #ccc;
+    border-radius:0px;
     box-shadow:none;
     -webkit-box-shadow:none;
     font-size:16px;

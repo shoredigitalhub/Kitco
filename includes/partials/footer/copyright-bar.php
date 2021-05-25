@@ -55,7 +55,9 @@ if ( 'false' === $disable_footer_copyright ) {
 						if ( ! empty( $nectar_options['footer-copyright-text'] ) ) {
 							echo wp_kses_post( $nectar_options['footer-copyright-text'] );}
 						?>
+						      
 			 </p>
+			 
 			<?php } ?>
 		   
 		</div><!--/span_5-->

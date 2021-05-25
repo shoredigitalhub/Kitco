@@ -71,6 +71,7 @@ $nectar_options        = get_nectar_theme_options();
 			</div><!--/span_3-->
 			
 			<div class="col span_9 col_last">
+			    
 				<?php
 				
 				if ( $nectar_header_options['header_search'] != 'false' ) {
@@ -113,7 +114,7 @@ $nectar_options        = get_nectar_theme_options();
 					
 					<nav>
 						
-						<ul class="sf-menu">	
+						<ul class="sf-menu">
 							<?php
 							if ( $nectar_header_options['has_main_menu'] === 'true' ) {
 								wp_nav_menu(
@@ -142,14 +143,17 @@ $nectar_options        = get_nectar_theme_options();
 							}
 							
 							?>
+							
 						</ul>
 						
-
+                        
 						<?php 
 						if ( $nectar_header_options['header_format'] !== 'menu-left-aligned' && 
 						$nectar_header_options['header_format'] !== 'centered-menu-bottom-bar' ) { ?>
 							<ul class="buttons sf-menu" data-user-set-ocm="<?php echo esc_attr( $nectar_header_options['user_set_side_widget_area'] ); ?>">
+							    
 								
+								<?php echo do_shortcode('[gtranslate]'); ?>
 								<?php
 								
 								if ( ! empty( $nectar_options['enable_social_in_header'] ) && 
@@ -161,6 +165,7 @@ $nectar_options        = get_nectar_theme_options();
 									nectar_header_social_icons( 'main-nav' );
 									echo '</li>';
 								}
+								
 								
 								// Pull right.
 								if ( $nectar_header_options['header_format'] === 'centered-menu' && 

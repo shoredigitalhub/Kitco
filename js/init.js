@@ -993,9 +993,21 @@
 				// Blank title megamenu columns.
 				$('header#top nav > ul > li.megamenu > ul.sub-menu > li > a').each(function () {
 					if ($(this).text() == '-' || $(this).text() == '–' || $(this).parent().hasClass('hide-title')) {
-						$(this).remove();
+						$(this).html('<div><h4>Global Markets at your fingertips</h4><a id="headbutton" class="nectar-button large regular" style="border-color: #29a643; color: #ffffff; background-color: #29a643; padding: 16px; font-size: 18px; margin-top: 10px; text-align:center; text-transform: none;" target="_blank" href="https://live.kitcomarkets.com/" data-color-override="#0b5795" data-hover-text-color-override="#ffffff">Start Trading Now</a><a class="nectar-button large regular" style="border-color: #0b5795; color: #ffffff; background-color: #0b5795!important; padding: 16px; font-size: 18px; margin-top: 10px; text-align:center; text-transform: none;" target="_blank" href="https://demo.kitcomarkets.com/login?referrer=" data-color-override="#0b5795" data-hover-color-override="#0b5795" data-hover-text-color-override="#ffffff">Try a Free Demo</a></div>');
 					}
 				});
+				$('header#top nav > ul > li.megamenu > ul.sub-menu > li > a').each(function () {
+					if ($(this).text() == 'Start Trading Now' ) {
+						$(this).css({
+						    "border-color": "rgba(11, 87, 149, 0.75)",
+                            "color": "rgb(11, 87, 149)",
+                            "visibility": "visible",
+                            "background-color": "transparent",
+						})
+					}
+				});
+				
+			
 
 			}
 			
@@ -1018,14 +1030,17 @@
 			
 			var $windowWidth = $window.width();
 			var $headerContainerWidth = $('header#top > .container').width();
+			
 			$('header#top nav > ul > li.megamenu > .sub-menu').css({
 				'padding-left': ($windowWidth - $headerContainerWidth) / 2 + 'px',
 				'padding-right': ($windowWidth + 2 - $headerContainerWidth) / 2 + 'px',
 				'width': $headerContainerWidth,
 				'left': '-' + ($windowWidth - $headerContainerWidth) / 2 + 'px'
 			});
+			
+			
+			
 		}
-		
 		
 		/**
 		* Hide main navigation on mobile.
@@ -15719,9 +15734,9 @@
 					}
 					
 					//prevent jump to rop on empty items
-					$('header#top .sf-menu li a[href="#"]').on('click', function (e) {
-						e.preventDefault();
-					});
+					//$('header#top .sf-menu li a[href="#"]').on('click', function (e) {
+						//e.preventDefault();
+					//});
 					
 					if ($('#nectar_fullscreen_rows').length == 0 || $nectarFullPage.$usingFullScreenRows == false) {
 						

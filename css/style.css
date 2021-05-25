@@ -2357,7 +2357,7 @@ body[data-button-style="rounded_shadow"] .nectar-button.wpb_start_animation,
   float:none
 }
 #top nav >ul >.megamenu ul li a{
-  border-bottom:none;
+  
   padding:9px 15px
 }
 body:not([data-header-format="left-header"]) #top nav >ul >.megamenu >ul >li >a, 
@@ -3729,9 +3729,7 @@ body[data-header-search="false"] #header-outer[data-has-menu="false"][data-cart=
 }
 #header-outer[data-full-width="true"] header >.container,
 body[data-slide-out-widget-area-style="simple"] #header-outer[data-full-width="true"] #mobile-menu {
-  width:100%;
-  max-width:100%;
-  padding:0 28px
+  
 }
 
 
@@ -5933,7 +5931,7 @@ body .nectar-button.medium{
   font-size:12px
 }
 .nectar-button.large{
-  font-size:14px;
+  font-size:inherit;
   padding:15px 22px;
   box-shadow:0 -3px rgba(0,0,0,0.1) inset;
   -webkit-box-shadow:0 -3px rgba(0,0,0,0.1) inset;
