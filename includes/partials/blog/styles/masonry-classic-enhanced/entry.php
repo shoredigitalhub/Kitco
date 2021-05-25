@@ -4,7 +4,7 @@
  *
  * Used when "Classic Enhanced" masonry style is selected.
  *
- * @version 12.5
+ * @version 11.0
  */
  
 // Exit if accessed directly
@@ -20,13 +20,6 @@ $masonry_item_sizing         = ( ! empty( $masonry_size_pm ) ) ? $masonry_size_p
 $nectar_post_class_additions = $masonry_item_sizing . ' masonry-blog-item';
 $excerpt_length              = ( ! empty( $nectar_options['blog_excerpt_length'] ) ) ? intval( $nectar_options['blog_excerpt_length'] ) : 15;
 
-$date_functionality = (isset($nectar_options['post_date_functionality']) && !empty($nectar_options['post_date_functionality'])) ? $nectar_options['post_date_functionality'] : 'published_date';
-
-if( 'last_editied_date' === $date_functionality ) {
-  $date = get_the_modified_date();
-} else {
-  $date = get_the_date();
-}
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class( $nectar_post_class_additions ); ?>>  
@@ -42,7 +35,7 @@ if( 'last_editied_date' === $date_functionality ) {
       
       <div class="content-inner">
         
-        <a class="entire-meta-link" href="<?php the_permalink(); ?>" aria-label="<?php the_title(); ?>"></a>
+        <a class="entire-meta-link" href="<?php the_permalink(); ?>"></a>
         
         <?php 
         
@@ -54,7 +47,7 @@ if( 'last_editied_date' === $date_functionality ) {
         <div class="article-content-wrap">
           
           <div class="post-header">
-            <?php echo '<span>' . esc_html($date) . '</span>'; ?>
+            <?php echo '<span>' . get_the_date() . '</span>'; ?>
             <h3 class="title"><a href="<?php the_permalink(); ?>"> <?php the_title(); ?></a></h3>
           </div>
           

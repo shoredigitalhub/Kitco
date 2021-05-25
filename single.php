@@ -3,7 +3,7 @@
  * The template for displaying single posts.
  *
  * @package Salient WordPress Theme
- * @version 13.0
+ * @version 11.0
  */
 
 // Exit if accessed directly
@@ -16,8 +16,11 @@ get_header();
 $nectar_options    = get_nectar_theme_options();
 $fullscreen_header = ( ! empty( $nectar_options['blog_header_type'] ) && 'fullscreen' === $nectar_options['blog_header_type'] && is_singular( 'post' ) ) ? true : false;
 $blog_header_type  = ( ! empty( $nectar_options['blog_header_type'] ) ) ? $nectar_options['blog_header_type'] : 'default';
-$theme_skin        = NectarThemeManager::$skin;
+$theme_skin        = ( ! empty( $nectar_options['theme-skin'] ) ) ? $nectar_options['theme-skin'] : 'original';
 $header_format     = ( ! empty( $nectar_options['header_format'] ) ) ? $nectar_options['header_format'] : 'default';
+if ( 'centered-menu-bottom-bar' === $header_format ) {
+	$theme_skin = 'material';
+}
 
 $hide_sidebar                      = ( ! empty( $nectar_options['blog_hide_sidebar'] ) ) ? $nectar_options['blog_hide_sidebar'] : '0';
 $blog_type                         = $nectar_options['blog_type'];
@@ -32,7 +35,7 @@ $container_wrap_class              = ( true === $fullscreen_header ) ? 'containe
 // Post header.
 if ( have_posts() ) :
 	while ( have_posts() ) :
-
+		
 		the_post();
 		nectar_page_header( $post->ID );
 
@@ -48,21 +51,21 @@ if ( true === $fullscreen_header ) {
 
 <div class="<?php echo esc_attr( $container_wrap_class ); if ( $blog_type === 'std-blog-fullwidth' || $hide_sidebar === '1' ) { echo ' no-sidebar'; } ?>" data-midnight="dark" data-remove-post-date="<?php echo esc_attr( $remove_single_post_date ); ?>" data-remove-post-author="<?php echo esc_attr( $remove_single_post_author ); ?>" data-remove-post-comment-number="<?php echo esc_attr( $remove_single_post_comment_number ); ?>">
 	<div class="container main-content">
-
+		
 		<?php
 		// Post header regular style when no image is supplied.
 		get_template_part( 'includes/partials/single-post/post-header-no-img-regular' );
 		?>
-
+			
 		<div class="row">
-
+			
 			<?php
 
-			nectar_hook_before_content();
+			nectar_hook_before_content(); 
 
 			$blog_standard_type = ( ! empty( $nectar_options['blog_standard_type'] ) ) ? $nectar_options['blog_standard_type'] : 'classic';
 			$blog_type          = $nectar_options['blog_type'];
-
+			
 			if ( null === $blog_type ) {
 				$blog_type = 'std-blog-sidebar';
 			}
@@ -72,23 +75,23 @@ if ( true === $fullscreen_header ) {
 			} else {
 				$std_minimal_class = '';
 			}
-
+			
 			$single_post_area_col_class = 'span_9';
-
+			
 			// No sidebar.
 			if ( 'std-blog-fullwidth' === $blog_type || '1' === $hide_sidebar ) {
 				$single_post_area_col_class = 'span_12 col_last';
-			}
-
+			} 
+			
 			?>
-
+			
 			<div class="post-area col <?php echo esc_attr($std_minimal_class) . ' ' . esc_attr($single_post_area_col_class); ?>">
-
-			<?php
+			
+			<?php 
 			// Main content loop.
 			if ( have_posts() ) :
 				while ( have_posts() ) :
-
+					
 					the_post();
 					get_template_part( 'includes/partials/single-post/post-content' );
 
@@ -96,75 +99,75 @@ if ( true === $fullscreen_header ) {
 			 endif;
 
 			wp_link_pages();
-
-			nectar_hook_after_content();
+			
+			nectar_hook_after_content(); 
 
 			// Bottom social location for default minimal post header style.
-			if ( 'default_minimal' === $blog_header_type &&
-			'fixed' !== $blog_social_style &&
+			if ( 'default_minimal' === $blog_header_type && 
+			'fixed' !== $blog_social_style && 
 			'post' === get_post_type() ) {
 
 				get_template_part( 'includes/partials/single-post/default-minimal-bottom-social' );
 
 			}
-
+			
 			if ( true === $fullscreen_header && get_post_type() === 'post' ) {
 				// Bottom meta bar when using fullscreen post header.
 				get_template_part( 'includes/partials/single-post/post-meta-bar-ascend-skin' );
 			}
 
 			if ( 'ascend' !== $theme_skin ) {
-
+				
 				// Original/Material Theme Skin Author Bio.
-				if ( ! empty( $nectar_options['author_bio'] ) &&
-					$nectar_options['author_bio'] === '1' &&
+				if ( ! empty( $nectar_options['author_bio'] ) && 
+					$nectar_options['author_bio'] === '1' && 
 					'post' == get_post_type() ) {
 					 get_template_part( 'includes/partials/single-post/author-bio' );
 
 				}
 
 			}
-
+			
 			?>
 
 		</div><!--/post-area-->
-
+			
 			<?php if ( 'std-blog-fullwidth' !== $blog_type && '1' !== $hide_sidebar ) { ?>
-
+				
 				<div id="sidebar" data-nectar-ss="<?php echo esc_attr( $enable_ss ); ?>" class="col span_3 col_last">
 					<?php get_sidebar(); ?>
 				</div><!--/sidebar-->
-
+				
 			<?php } ?>
-
+				
 		</div><!--/row-->
 
 		<div class="row">
 
-			<?php
-
+			<?php 
+				
 				// Pagination/Related Posts.
 				nectar_next_post_display();
 				nectar_related_post_display();
-
+				
 				// Ascend Theme Skin Author Bio.
-				if ( ! empty( $nectar_options['author_bio'] ) &&
-					'1' === $nectar_options['author_bio'] &&
-					'ascend' === $theme_skin &&
+				if ( ! empty( $nectar_options['author_bio'] ) && 
+					'1' === $nectar_options['author_bio'] && 
+					'ascend' === $theme_skin && 
 					'post' == get_post_type() ) {
 					get_template_part( 'includes/partials/single-post/author-bio-ascend-skin' );
 				}
-
+			
 			?>
 
 			<div class="comments-section" data-author-bio="<?php if ( ! empty( $nectar_options['author_bio'] ) && $nectar_options['author_bio'] === '1' ) { echo 'true'; } else { echo 'false'; } ?>">
 				<?php comments_template(); ?>
-			</div>
+			</div>   
 
 		</div><!--/row-->
 
 	</div><!--/container main-content-->
-	<?php nectar_hook_before_container_wrap_close(); ?>
+
 </div><!--/container-wrap-->
 
 <?php if ( 'fixed' === $blog_social_style ) {

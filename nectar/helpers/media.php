@@ -140,7 +140,7 @@ if ( ! empty( $nectar_options['default-lightbox'] ) && $nectar_options['default-
 
 
 /**
- * Add URL option into attachment details for wpbakery image gallery element
+ * Add URL option into attachment details for visual composer image gallery element
  *
  * @since 5.0
  */
@@ -355,51 +355,6 @@ if ( ! function_exists( 'fjarrett_get_attachment_id_from_url' ) ) {
 
 
 
-/**
- * Returns a lightbox ready URL from youtube/vimeo embed
- *
- * @since 12.2
- */
-if ( ! function_exists( 'nectar_extract_video_lightbox_link' ) ) {
-
- function nectar_extract_video_lightbox_link( $post, $video_embed, $video_mp4 ) {
-
-	 $project_video_src  = null;
-	 $project_video_link = null;
-
-	 if ( $video_embed ) {
-
-		 $project_video_src = $video_embed;
-
-		 if ( preg_match( '%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $project_video_src, $video_match ) ) {
-
-			 // youtube
-			 $project_video_link = 'https://www.youtube.com/watch?v=' . $video_match[1];
-
-		 } elseif ( preg_match( '/player\.vimeo\.com\/video\/([0-9]*)/', $project_video_src, $video_match ) ) {
-
-			 // vimeo iframe
-			 $project_video_link = 'https://vimeo.com/' . $video_match[1] . '?iframe=true';
-
-		 } elseif ( preg_match( '/(https?:\/\/)?(www\.)?(player\.)?vimeo\.com\/([a-z]*\/)*([‌​0-9]{6,11})[?]?.*/', $project_video_src, $video_match ) ) {
-
-			 // reg vimeo
-			 $project_video_link = 'https://vimeo.com/' . $video_match[5] . '?iframe=true';
-
-		 }
-	 } elseif ( $video_mp4 ) {
-
-		 $project_video_link = $video_mp4;
-
-	 }
-
-
-	 return esc_url($project_video_link);
-	 
- }
- 
-}
-
 
 
 /**
@@ -446,44 +401,3 @@ if ( ! function_exists( 'nectar_options_img' ) ) {
 		}
 	}
 }
-
-
-
-/**
- * Attempts to locate video ID based on URL and grab the video source
- * through wp_get_attachment_url to allow CDNs to swap the source.
- *
- * @since 12.2.0
- */
- if( !function_exists('nectar_video_src_from_wp_attachment') ) {
-	 
-	 function nectar_video_src_from_wp_attachment( $url ) {
-		 
-		 
-		 if( function_exists('attachment_url_to_postid') && !empty($url) ) {
-			 
-			 $video_id = attachment_url_to_postid($url);
-			 
-			 // The ID has been found.
-			 if( 0 !== $video_id ) {
-				 
-				 $video_source = wp_get_attachment_url($video_id);
-			
-				 // An Attachment URL has been found.
-				 if( $video_source ) {
-					 return $video_source;
-				 }
-				 
-			 }
-			 
-		 }
-		 
-		 // Default.
-		 return $url;
-		 
-	 }
-	 
- }
- 
-
-

@@ -1,10 +1,10 @@
 <?php
 /**
- * Salient WooCommerce Integration.
+ * WooCommerce helpers
  *
  * @package Salient WordPress Theme
  * @subpackage helpers
- * @version 13.0
+ * @version 10.5
  */
 
 // Exit if accessed directly
@@ -17,26 +17,19 @@ if ( class_exists( 'WooCommerce' ) && is_admin() && file_exists( NECTAR_THEME_DI
 	include NECTAR_THEME_DIRECTORY . '/nectar/woo/admin-notices.php';
 }
 
-// Declare theme support.
-add_theme_support( 'woocommerce' );
 
-
+// Load product quickview.
 $nectar_quick_view_in_use = 'false';
 
 if ( class_exists( 'WooCommerce' ) ) {
-
-	// Load product quickview class.
+	
 	$nectar_quick_view = ( ! empty( $nectar_options['product_quick_view'] ) && $nectar_options['product_quick_view'] === '1' ) ? true : false;
-
+	
 	if ( $nectar_quick_view ) {
 		$nectar_quick_view_in_use = 'true';
 		require_once NECTAR_THEME_DIRECTORY . '/nectar/woo/quick-view.php';
 	}
-
-	// Load cart class.
-	require_once NECTAR_THEME_DIRECTORY . '/nectar/woo/cart.php';
-
-
+	
 }
 
 $main_shop_layout      = ( ! empty( $nectar_options['main_shop_layout'] ) ) ? $nectar_options['main_shop_layout'] : 'no-sidebar';
@@ -45,21 +38,7 @@ $single_product_layout = ( ! empty( $nectar_options['single_product_layout'] ) )
 remove_action( 'woocommerce_before_main_content', 'woocommerce_output_content_wrapper', 10 );
 remove_action( 'woocommerce_after_main_content', 'woocommerce_output_content_wrapper_end', 10 );
 
-
-if( !function_exists('nectar_is_woo_archive') ) {
-	function nectar_is_woo_archive() {
-		if( class_exists( 'WooCommerce' ) ) {
-
-			if( is_shop() || is_product_category() || is_product_tag() || is_product_taxonomy() ) {
-				return true;
-			}
-
-		}
-		return false;
-	}
-}
-
-// Needed to let WooCommerce know Salient has theme options for columns
+// needed to let WooCommerce know Salient has theme options for columns
 if ( function_exists( 'is_customize_preview' ) ) {
 	if ( $woocommerce && is_customize_preview() ) {
 		add_filter( 'loop_shop_columns', 'nectar_shop_loop_columns' );
@@ -67,29 +46,17 @@ if ( function_exists( 'is_customize_preview' ) ) {
 }
 
 
-// Layout/Structure modifications.
-if ( !function_exists( 'nectar_shop_header_output' ) ) {
-	function nectar_shop_header_output() {
-		echo '<div class="nectar-shop-header">';
+if ( !function_exists( 'nectar_shop_wrapper_start' ) ) {
+	function nectar_shop_wrapper_start() {
+		echo '<div class="container-wrap" data-midnight="dark"><div class="container main-content"><div class="row"><div class="nectar-shop-header">';
 		do_action( 'nectar_shop_header_markup' );
 		echo '</div>';
 	}
 }
 
-if ( !function_exists( 'nectar_shop_wrapper_start' ) ) {
-	function nectar_shop_wrapper_start() {
-		echo '<div class="container-wrap" data-midnight="dark">';
-		do_action('nectar_shop_after_container_wrap_open');
-		echo '<div class="container main-content"><div class="row">';
-		do_action('nectar_shop_above_loop');
-	}
-}
-
 if ( !function_exists( 'nectar_shop_wrapper_end' ) ) {
 	function nectar_shop_wrapper_end() {
-		echo '</div></div>';
-			nectar_hook_before_container_wrap_close();
-		echo '</div>';
+		echo '</div></div></div>';
 		do_action( 'nectar_shop_fixed_social' );
 	}
 }
@@ -98,69 +65,54 @@ if ( !function_exists( 'nectar_shop_wrapper_end' ) ) {
 if ( !function_exists( 'nectar_shop_wrapper_start_sidebar_left' ) ) {
 	function nectar_shop_wrapper_start_sidebar_left() {
 
-		echo '<div class="container-wrap" data-midnight="dark">';
-			do_action('nectar_shop_after_container_wrap_open');
-			echo '<div class="container main-content">';
-				do_action('nectar_shop_above_loop');
-				echo '<div class="row"><div id="sidebar" class="col span_3 col">';
-				do_action('nectar_shop_sidebar_top');
-				echo '<div class="inner">';
-				if ( function_exists( 'dynamic_sidebar' ) ) {
-					dynamic_sidebar( 'woocommerce-sidebar' );
-				}
-		echo '</div></div><div class="post-area col span_9 col_last">';
+		echo '<div class="container-wrap" data-midnight="dark"><div class="container main-content"><div class="nectar-shop-header">';
+		do_action( 'nectar_shop_header_markup' );
+		echo '</div><div class="row"><div id="sidebar" class="col span_3 col">';
+		if ( function_exists( 'dynamic_sidebar' ) ) {
+			dynamic_sidebar( 'woocommerce-sidebar' );
+		}
+		echo '</div><div class="post-area col span_9 col_last">';
 	}
 }
 
 if ( !function_exists( 'nectar_shop_wrapper_end_sidebar_left' ) ) {
 	function nectar_shop_wrapper_end_sidebar_left() {
-		echo '</div></div></div>';
-		nectar_hook_before_container_wrap_close();
-		echo '</div>';
-		do_action( 'nectar_shop_fixed_social' );
+		echo '</div></div></div></div>';
+			do_action( 'nectar_shop_fixed_social' );
 	}
 }
 
 if ( !function_exists( 'nectar_shop_wrapper_start_sidebar_right' ) ) {
 	function nectar_shop_wrapper_start_sidebar_right() {
-		echo '<div class="container-wrap" data-midnight="dark">';
-		do_action('nectar_shop_after_container_wrap_open');
-		echo '<div class="container main-content">';
-		do_action('nectar_shop_above_loop');
-		echo '<div class="row"><div class="post-area col span_9">';
+		echo '<div class="container-wrap" data-midnight="dark"><div class="container main-content"><div class="nectar-shop-header">';
+		do_action( 'nectar_shop_header_markup' );
+		echo '</div><div class="row"><div class="post-area col span_9">';
 	}
 }
 
 if ( !function_exists( 'nectar_shop_wrapper_end_sidebar_right' ) ) {
 	function nectar_shop_wrapper_end_sidebar_right() {
-		echo '</div><div id="sidebar" class="col span_3 col_last">';
-		do_action('nectar_shop_sidebar_top');
-		echo '<div class="inner">';
+			echo '</div><div id="sidebar" class="col span_3 col_last">';
 		if ( function_exists( 'dynamic_sidebar' ) ) {
 			dynamic_sidebar( 'woocommerce-sidebar' );
 		}
 		echo '</div></div></div></div>';
-		nectar_hook_before_container_wrap_close();
-		echo '</div>';
-		do_action( 'nectar_shop_fixed_social' );
+			do_action( 'nectar_shop_fixed_social' );
 	}
 }
 
 if ( !function_exists( 'nectar_shop_wrapper_start_fullwidth' ) ) {
 	function nectar_shop_wrapper_start_fullwidth() {
 
-		echo '<div class="container-wrap" data-midnight="dark">';
-		do_action('nectar_shop_after_container_wrap_open');
-		echo '<div class="container main-content"><div class="row"><div class="full-width-content nectar-shop-outer">';
-		do_action('nectar_shop_above_loop');
+		echo '<div class="container-wrap" data-midnight="dark"><div class="container main-content"><div class="row"><div class="full-width-content nectar-shop-outer"><div class="nectar-shop-header">';
+		do_action( 'nectar_shop_header_markup' );
+		echo '</div>';
 	}
 }
 
 if ( !function_exists( 'nectar_shop_wrapper_end_fullwidth' ) ) {
 	function nectar_shop_wrapper_end_fullwidth() {
-		echo '</div></div></div>';
-			nectar_hook_before_container_wrap_close();
-		echo '</div>';
+		echo '</div></div></div></div>';
 	}
 }
 
@@ -173,44 +125,30 @@ if ( ! function_exists( 'nectar_shop_loop_columns' ) ) {
 
 if ( ! function_exists( 'nectar_shop_loop_columns_std' ) ) {
 	function nectar_shop_loop_columns_std() {
-		return 4; // 4 products per row
+		return 4; // 3 products per row
 	}
 }
 
-
-// Change header.
+// change header
 remove_action( 'woocommerce_before_shop_loop', 'woocommerce_result_count', 20 );
 remove_action( 'woocommerce_before_shop_loop', 'woocommerce_catalog_ordering', 30 );
 add_filter( 'woocommerce_show_page_title', '__return_false' );
+add_filter( 'woocommerce_breadcrumb_defaults', 'nectar_change_breadcrumb_delimiter' );
 
-// Modify Breadcrumbs.
-add_filter( 'woocommerce_breadcrumb_defaults', 'nectar_change_breadcrumbs' );
-
-if ( !function_exists( 'nectar_change_breadcrumbs' ) ) {
-	function nectar_change_breadcrumbs( $defaults ) {
-
-		return array(
-          'delimiter'   => ' <i class="fa fa-angle-right"></i> ',
-          'wrap_before' => '<nav class="woocommerce-breadcrumb" itemprop="breadcrumb">',
-          'wrap_after'  => '</nav>',
-          'before'      => '<span>',
-          'after'       => '</span>',
-          'home'        => _x( 'Home', 'breadcrumb', 'woocommerce' ),
-      );
-
+if ( !function_exists( 'nectar_change_breadcrumb_delimiter' ) ) {
+	function nectar_change_breadcrumb_delimiter( $defaults ) {
+		$defaults['delimiter'] = ' <i class="fa fa-angle-right"></i> ';
+		return $defaults;
 	}
 }
 
 
 if ( $woocommerce ) {
-
-	if( !is_admin() ) {
-		add_action( 'wp', 'nectar_woo_shop_markup' );
-	}
+	add_action( 'wp', 'nectar_woo_shop_markup' );
 
 	// alter gallery thumbnail width
 	add_action( 'after_setup_theme', 'nectar_custom_gallery_thumb_woocommerce_theme_support' );
-
+	
 	if ( !function_exists( 'nectar_custom_gallery_thumb_woocommerce_theme_support' ) ) {
 		function nectar_custom_gallery_thumb_woocommerce_theme_support() {
 			add_theme_support(
@@ -224,41 +162,22 @@ if ( $woocommerce ) {
 
 }
 
-
-/**
- * Alters the WooCommerce shop markup with
- * the Salient specific structure
- *
- * @since 5.0
- */
 if ( !function_exists( 'nectar_woo_shop_markup' ) ) {
-
+	
 	function nectar_woo_shop_markup() {
 
 		global $single_product_layout;
 		global $main_shop_layout;
 		global $woocommerce;
-		global $nectar_options;
 
 		if ( $woocommerce && ! is_product() ) {
 			remove_action( 'woocommerce_before_main_content', 'woocommerce_breadcrumb', 20 );
 		}
 
-		// Shop Page Header.
+		// page header
 		if ( is_shop() || is_product_category() || is_product_tag() || is_product_taxonomy() ) {
 
-			add_action( 'nectar_shop_above_loop', 'nectar_shop_header_output', 10 );
-
-			$product_archive_header_size = ( isset($nectar_options['product_archive_header_size'] ) ) ? $nectar_options['product_archive_header_size'] : 'default';
-			if( 'contained' === $product_archive_header_size ) {
-				add_action( 'nectar_shop_after_container_wrap_open', 'salient_shop_header', 10 );
-			}
-			else {
-				add_action( 'woocommerce_before_main_content', 'salient_shop_header', 10 );
-			}
-
-
-			$product_archive_description = ( isset($nectar_options['product_archive_category_description'] ) ) ? $nectar_options['product_archive_category_description'] : 'default';
+			add_action( 'woocommerce_before_main_content', 'salient_shop_header', 10 );
 
 			if ( ! function_exists( 'salient_shop_header' ) ) {
 				function salient_shop_header() {
@@ -290,14 +209,11 @@ if ( !function_exists( 'nectar_woo_shop_markup' ) ) {
 				$header_bg_image = get_post_meta( woocommerce_get_page_id( 'shop' ), '_nectar_header_bg', true );
 			}
 
-			$using_cat_bg = false;
-
 			if ( is_shop() ) {
 				if ( empty( $header_bg_color ) && empty( $header_bg_image ) ) {
 					add_action( 'nectar_shop_header_markup', 'salient_woo_shop_title', 10 );
 				}
-			}
-			elseif ( is_product_category() ) {
+			} elseif ( is_product_category() ) {
 
 				$cate          = get_queried_object();
 				$t_id          = ( property_exists( $cate, 'term_id' ) ) ? $cate->term_id : '';
@@ -308,62 +224,21 @@ if ( !function_exists( 'nectar_woo_shop_markup' ) ) {
 				if ( empty( $header_bg_color ) && empty( $header_bg_image ) && ! $using_cat_bg ) {
 					add_action( 'nectar_shop_header_markup', 'salient_woo_shop_title', 10 );
 				}
-
-			}
-			elseif ( is_product_tag() || is_product_taxonomy() ) {
+			} elseif ( is_product_tag() || is_product_taxonomy() ) {
 
 				if ( empty( $header_bg_color ) && empty( $header_bg_image ) ) {
 					add_action( 'nectar_shop_header_markup', 'salient_woo_shop_title', 10 );
 				}
-
 			}
 
-			// Product Category Description Location.
-			if( 'in_header' === $product_archive_description  ) {
 
-				if( !empty( $header_bg_color ) || !empty( $header_bg_image ) || true === $using_cat_bg ) {
-					remove_action('woocommerce_archive_description', 'woocommerce_taxonomy_archive_description');
-					remove_action('woocommerce_archive_description', 'woocommerce_product_archive_description');
-
-					if(!is_shop()) {
-						add_filter('nectar_page_header_subtitle', 'nectar_shop_header_description_mod');
-					}
-				}
-
-			}
-
-			// Filter sidebar toggle
-			$product_filter_trigger = NectarThemeManager::$woo_product_filters;
-
-			if( false === $product_filter_trigger ) {
-				add_action( 'nectar_shop_header_markup', 'woocommerce_catalog_ordering', 10 );
-				add_action( 'nectar_shop_header_markup', 'woocommerce_result_count', 10 );
-			}
+			add_action( 'nectar_shop_header_markup', 'woocommerce_catalog_ordering', 10 );
+			add_action( 'nectar_shop_header_markup', 'woocommerce_result_count', 10 );
 			add_action( 'nectar_shop_header_markup', 'woocommerce_breadcrumb', 10 );
 
-			if( true === $product_filter_trigger ) {
+		}
 
-				add_action( 'nectar_shop_header_markup', 'nectar_shop_header_bottom_markup_output', 10 );
-
-				add_action( 'nectar_shop_header_bottom_markup', 'nectar_product_filter_area_trigger', 10 );
-				add_action( 'nectar_shop_header_bottom_secondary_markup', 'woocommerce_result_count', 10 );
-				add_action( 'nectar_shop_header_bottom_secondary_markup', 'woocommerce_catalog_ordering', 10 );
-
-				add_action( 'nectar_shop_sidebar_top', 'nectar_shop_sidebar_filter_area_meta' );
-
-			}
-
-			// Active filters.
-			if( isset($nectar_options['product_show_filters']) &&
-			    '1' === $nectar_options['product_show_filters']) {
-				add_action( 'nectar_woocommerce_after_filter_trigger', 'nectar_product_active_filters', 10 );
-			}
-
-
-		} // end shop page header.
-
-
-		// No sidebar: Product single.
+		// no sidebar shop single
 		if ( is_product() && $single_product_layout != 'right-sidebar' && is_product() && $single_product_layout != 'left-sidebar' ) {
 			remove_action( 'woocommerce_sidebar', 'woocommerce_get_sidebar', 10 );
 			add_action( 'woocommerce_before_main_content', 'nectar_shop_wrapper_start', 10 );
@@ -372,7 +247,7 @@ if ( !function_exists( 'nectar_woo_shop_markup' ) ) {
 			add_filter( 'loop_shop_columns', 'nectar_shop_loop_columns_std' );
 		}
 
-		// No sidebar: Product archives.
+		// no sidebar shop
 		if ( is_shop() || is_product_category() || is_product_tag() || is_product_taxonomy() ) {
 			if ( $main_shop_layout != 'right-sidebar' && $main_shop_layout != 'left-sidebar' && $main_shop_layout != 'fullwidth' ) {
 				remove_action( 'woocommerce_sidebar', 'woocommerce_get_sidebar', 10 );
@@ -387,12 +262,11 @@ if ( !function_exists( 'nectar_woo_shop_markup' ) ) {
 			}
 		}
 
-
+		// using sidebar
 		if ( is_shop() || is_product_category() || is_product_tag() || is_product() || is_product_taxonomy() ) {
 
 			$nectar_shop_layout = ( is_product() ) ? $single_product_layout : $main_shop_layout;
 
-			// Right Sidebar.
 			if ( $nectar_shop_layout === 'right-sidebar' ) {
 
 				remove_action( 'woocommerce_sidebar', 'woocommerce_get_sidebar', 10 );
@@ -402,10 +276,7 @@ if ( !function_exists( 'nectar_woo_shop_markup' ) ) {
 
 				add_filter( 'loop_shop_columns', 'nectar_shop_loop_columns' );
 
-			}
-
-			// Left Sidebar.
-			elseif ( $nectar_shop_layout === 'left-sidebar' ) {
+			} elseif ( $nectar_shop_layout === 'left-sidebar' ) {
 
 				remove_action( 'woocommerce_sidebar', 'woocommerce_get_sidebar', 10 );
 
@@ -413,9 +284,7 @@ if ( !function_exists( 'nectar_woo_shop_markup' ) ) {
 				add_action( 'woocommerce_after_main_content', 'nectar_shop_wrapper_end_sidebar_left', 10 );
 
 				add_filter( 'loop_shop_columns', 'nectar_shop_loop_columns' );
-			}
-			// Fullwidth.
-			elseif ( $nectar_shop_layout === 'fullwidth' ) {
+			} elseif ( $nectar_shop_layout === 'fullwidth' ) {
 
 				remove_action( 'woocommerce_sidebar', 'woocommerce_get_sidebar', 10 );
 
@@ -423,173 +292,18 @@ if ( !function_exists( 'nectar_woo_shop_markup' ) ) {
 				add_action( 'woocommerce_after_main_content', 'nectar_shop_wrapper_end_fullwidth', 10 );
 
 			}
-
-		} // end conditional to check if on a WooCommerce page.
-
-	} // end nectar_woo_shop_markup;
-
-}
-
-
-// Archive Header Options.
-if( !function_exists('nectar_woo_archive_mods') ) {
-	function nectar_woo_archive_mods() {
-
-		global $nectar_options;
-
-		// Product Category Header Sizing.
-		$product_archive_header_size = ( isset($nectar_options['product_archive_header_size'] ) ) ? $nectar_options['product_archive_header_size'] : 'default';
-
-		if( 'contained' === $product_archive_header_size && true === nectar_is_woo_archive() ) {
-			add_filter('nectar_page_header_wrap_class_name', 'nectar_shop_header_contained_class_mod');
-			add_filter('nectar_activate_transparent_header', 'nectar_shop_header_contained_transparency_mod', 10);
 		}
 
-		add_filter('nectar_page_header_wrap_class_name', 'nectar_shop_header_alignment_class_mod');
-
-	}
-}
-
-add_action('wp', 'nectar_woo_archive_mods', 10);
-
-
-// Altering page header classes.
-if( !function_exists('nectar_shop_header_contained_class_mod') ) {
-	function nectar_shop_header_contained_class_mod( $classes ) {
-		$classes[] = 'container';
-		$classes[] = 'woo-archive-header';
-		return $classes;
-	}
-}
-
-if( !function_exists('nectar_shop_header_alignment_class_mod') ) {
-	function nectar_shop_header_alignment_class_mod( $classes ) {
-
-		global $nectar_options;
-
-		$cate 					= get_queried_object();
-		$t_id 					= (property_exists($cate, 'term_id')) ? $cate->term_id : '';
-		$product_terms 	= get_option( "taxonomy_$t_id" );
-
-		$product_archive_auto_height = ( isset($nectar_options['product_archive_header_auto_height'] ) ) ? $nectar_options['product_archive_header_auto_height'] : '0';
-
-		if( '1' === $product_archive_auto_height ) {
-			$content_align 	= (isset($product_terms['product_category_header_content_align'])) ? $product_terms['product_category_header_content_align'] : '';
-			// Content align.
-			if( !empty($content_align) ) {
-				$classes[] = 'align-content-'.esc_attr($content_align);
-			}
-
-			$text_align 	= (isset($product_terms['product_category_header_text_align'])) ? $product_terms['product_category_header_text_align'] : '';
-			// Text align.
-			if( !empty($text_align) ) {
-				$classes[] = 'align-text-'.esc_attr($text_align);
-			}
-		}
-
-		return $classes;
-	}
-}
-
-
-// Alters the page header transparency.
-if( !function_exists('nectar_shop_header_contained_transparency_mod') ) {
-	function nectar_shop_header_contained_transparency_mod( $bool ) {
-		return false;
-	}
-}
-
-
-// Alters the page header description.
-if( !function_exists('nectar_shop_header_description_mod') ) {
-	function nectar_shop_header_description_mod($text) {
-
-		ob_start();
-		woocommerce_taxonomy_archive_description();
-		$content = ob_get_clean();
-
-		return $content;
-	}
-}
-
-
-// Bottom Header Markup.
-if( !function_exists('nectar_shop_header_bottom_markup_output') ) {
-	function nectar_shop_header_bottom_markup_output() {
-
-		echo '<div class="nectar-shop-header-bottom"><div class="left-side">';
-		do_action( 'nectar_shop_header_bottom_markup' );
-		echo '</div><div class="right-side">';
-		do_action( 'nectar_shop_header_bottom_secondary_markup' );
-		echo '</div></div>';
-
-	}
-}
-
-// Filter area.
-if( !function_exists('nectar_product_filter_area_trigger') ) {
-	function nectar_product_filter_area_trigger() {
-		echo '<div class="nectar-shop-filters">
-					<a href="#" class="nectar-shop-filter-trigger">
-						<span class="toggle-icon">
-							<span>
-								<span class="top-line"></span>
-								<span class="bottom-line"></span>
-							</span>
-						</span>
-						<span class="text-wrap">
-							<span class="dynamic">
-								<span class="show">'.esc_html__('Show','salient').'</span>
-								<span class="hide">'.esc_html__('Hide','salient').'</span>
-							</span> '.esc_html__('Filters','salient').'</span>
-					</a>';
-					do_action('nectar_woocommerce_after_filter_trigger');
-		echo '</div>';
-	}
-}
-
-if( !function_exists('nectar_shop_sidebar_filter_area_meta') ) {
-	function nectar_shop_sidebar_filter_area_meta() {
-		echo '<div class="header">
-			<h4>'.esc_html__('Filters','salient').'</h4>
-			<div class="nectar-close-btn-wrap">';
-			if( NectarThemeManager::$skin === 'material' ) {
-				echo '<a href="#" class="nectar-close-btn small">
-					<span class="screen-reader-text">'.esc_html__('Close Filters','salient').'</span>
-					<span class="close-wrap">
-						<span class="close-line close-line1"></span>
-						<span class="close-line close-line2"></span>
-					</span>
-				</a>';
-			} else {
-				echo '<a href="#" class="nectar-close-btn small">
-					<span class="screen-reader-text">'.esc_html__('Close Filters','salient').'</span>
-					<span class="icon-salient-m-close"></span>
-				</a>';
-			}
-			echo '</div>
-		</div>';
-	}
-}
-
-// Active filters.
-if( !function_exists('nectar_product_active_filters') ) {
-
-	function nectar_product_active_filters() {
-
-		if( class_exists('WC_Widget_Layered_Nav_Filters') ) {
-
-			echo '<div class="nectar-active-product-filters">';
-			the_widget( 'WC_Widget_Layered_Nav_Filters' );
-			echo '</div>';
-		}
 	}
 
 }
 
 
 
-// Custom gallery thumb size.
+
+add_theme_support( 'woocommerce' );
+
+/* custom gallery thumb size */
 if ( $woocommerce ) {
 	add_filter( 'woocommerce_gallery_thumbnail_size', 'nectar_woocommerce_gallery_thumbnail_size' );
 }
@@ -621,7 +335,7 @@ if ( $woocommerce && version_compare( $woocommerce->version, '3.0', '>=' ) ) {
 }
 
 
-// Update the cart with ajax.
+// update the cart with ajax
 if ( !function_exists( 'nectar_add_to_cart_fragment' ) ) {
 	function nectar_add_to_cart_fragment( $fragments ) {
 		global $woocommerce;
@@ -631,7 +345,7 @@ if ( !function_exists( 'nectar_add_to_cart_fragment' ) ) {
 	}
 }
 
-// Change summary html markup to fit responsive.
+// change summary html markup to fit responsive
 if ( empty( $nectar_options['product_tab_position'] ) || $nectar_options['product_tab_position'] === 'in_sidebar' ) {
 	add_action( 'woocommerce_before_single_product_summary', 'nectar_woocommerce_summary_div', 35 );
 	add_action( 'woocommerce_after_single_product_summary', 'nectar_woocommerce_close_div', 4 );
@@ -649,13 +363,13 @@ if ( !function_exists( 'nectar_woocommerce_close_div' ) ) {
 	}
 }
 
-// Change tab position to be inside summary.
+// change tab position to be inside summary
 if ( empty( $nectar_options['product_tab_position'] ) || $nectar_options['product_tab_position'] === 'in_sidebar' ) {
 	remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_product_data_tabs', 10 );
 	add_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_product_data_tabs', 1 );
 }
 
-// Wrap single product image in an extra div.
+// wrap single product image in an extra div
 add_action( 'woocommerce_before_single_product_summary', 'nectar_woocommerce_images_div', 8 );
 add_action( 'woocommerce_before_single_product_summary', 'nectar_woocommerce_close_div', 29 );
 
@@ -666,44 +380,27 @@ if ( !function_exists( 'nectar_woocommerce_images_div' ) ) {
 }
 
 
-// Display upsells and related products within dedicated div with different column and number of products.
+// display upsells and related products within dedicated div with different column and number of products
 remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 20 );
 remove_action( 'woocommerce_after_single_product', 'woocommerce_output_related_products', 10 );
 add_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 20 );
 
 if ( !function_exists( 'woocommerce_output_related_products' ) ) {
 	function woocommerce_output_related_products() {
-		$output = '';
-
-		global $nectar_options;
-		$related_carousel = ( isset($nectar_options['single_product_related_upsell_carousel'] ) ) ? $nectar_options['single_product_related_upsell_carousel'] : '0';
-		$products_per_page = ( '1' === $related_carousel && isset($nectar_options['single_product_related_upsell_carousel_number']) && !empty($nectar_options['single_product_related_upsell_carousel_number']) ) ? intval($nectar_options['single_product_related_upsell_carousel_number']) : 4;
+		$output = null;
 
 		ob_start();
 		woocommerce_related_products(
 			array(
 				'columns'        => 4,
-				'posts_per_page' => $products_per_page,
+				'posts_per_page' => 4,
 			)
 		);
 		$content = ob_get_clean();
 		if ( $content ) {
 			$output .= $content; }
 
-		if( $content ) {
-
-			if( '1' === $related_carousel ) {
-				echo '<div class="clear"></div>';
-				echo '<div class="span_12 dark"><div class="woocommerce columns-4"><div class="nectar-woo-flickity related-upsell-carousel" data-autorotate="" data-controls="arrows-overlaid">';
-				echo '<div class="nectar-woo-carousel-top"></div>' . $output;
-				echo '</div></div></div>';
-			}
-			else {
-				echo '<div class="clear"></div>' . $output;
-			}
-
-		}
-
+		echo '<div class="clear"></div>' . $output;
 	}
 }
 
@@ -713,30 +410,9 @@ add_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_upse
 
 if ( !function_exists( 'woocommerce_output_upsells' ) ) {
 	function woocommerce_output_upsells() {
-
-		global $nectar_options;
-
-		$upsell_carousel = ( isset($nectar_options['single_product_related_upsell_carousel'] ) ) ? $nectar_options['single_product_related_upsell_carousel'] : '0';
-
-		$products_per_page = ( '1' === $upsell_carousel && isset($nectar_options['single_product_related_upsell_carousel_number']) && !empty($nectar_options['single_product_related_upsell_carousel_number']) ) ? intval($nectar_options['single_product_related_upsell_carousel_number']) : 4;
-
-		if( '1' === $upsell_carousel ) {
-
-			ob_start();
-			woocommerce_upsell_display( $products_per_page, 4 );
-			$content = ob_get_clean();
-
-			if( !empty($content) ) {
-				echo '<div class="span_12 dark"><div class="woocommerce columns-4"><div class="nectar-woo-flickity related-upsell-carousel" data-autorotate="" data-controls="arrows-overlaid">';
-				echo '<div class="nectar-woo-carousel-top"></div>'. $content;
-				echo '</div></div></div>';
-			}
-
-		}
-		else {
-			woocommerce_upsell_display( $products_per_page, 4 );
-		}
-
+		
+		woocommerce_upsell_display( 4, 4 );
+		
 	}
 }
 
@@ -744,7 +420,7 @@ if ( !function_exists( 'woocommerce_output_upsells' ) ) {
 if ( $woocommerce && version_compare( $woocommerce->version, '3.0', '>=' ) ) {
 	add_filter( 'woocommerce_add_to_cart_fragments', 'nectar_woocommerce_header_add_to_cart_fragment' );
 	add_filter( 'woocommerce_add_to_cart_fragments', 'nectar_mobile_woocommerce_header_add_to_cart_fragment' );
-
+	
 } else {
 	add_filter( 'add_to_cart_fragments', 'nectar_woocommerce_header_add_to_cart_fragment' );
 }
@@ -754,7 +430,7 @@ if ( !function_exists( 'nectar_woocommerce_header_add_to_cart_fragment' ) ) {
 		global $woocommerce;
 
 		ob_start(); ?>
-		<a class="cart-contents" aria-label="<?php echo esc_html__('Cart', 'salient'); ?>" href="<?php echo wc_get_cart_url(); ?>"><div class="cart-icon-wrap"><i class="icon-salient-cart"></i> <div class="cart-wrap"><span><?php echo esc_html( $woocommerce->cart->cart_contents_count ); ?> </span></div> </div></a>
+		<a class="cart-contents" href="<?php echo wc_get_cart_url(); ?>"><div class="cart-icon-wrap"><i class="icon-salient-cart"></i> <div class="cart-wrap"><span><?php echo esc_html( $woocommerce->cart->cart_contents_count ); ?> </span></div> </div></a>
 		<?php
 
 		$fragments['a.cart-contents'] = ob_get_clean();
@@ -766,12 +442,10 @@ if ( !function_exists( 'nectar_woocommerce_header_add_to_cart_fragment' ) ) {
 if ( !function_exists( 'nectar_mobile_woocommerce_header_add_to_cart_fragment' ) ) {
 	function nectar_mobile_woocommerce_header_add_to_cart_fragment( $fragments ) {
 		global $woocommerce;
-		global $nectar_options;
 
 		ob_start();
-		$nav_cart_style = ( isset( $nectar_options['ajax-cart-style'] ) ) ? $nectar_options['ajax-cart-style'] : 'default';
 		?>
-		<a id="mobile-cart-link" data-cart-style="<?php echo esc_attr($nav_cart_style); ?>" href="<?php echo wc_get_cart_url(); ?>"><i class="icon-salient-cart"></i><div class="cart-wrap"><span><?php echo esc_html( $woocommerce->cart->cart_contents_count ); ?> </span></div></a>
+		<a id="mobile-cart-link" href="<?php echo wc_get_cart_url(); ?>"><i class="icon-salient-cart"></i><div class="cart-wrap"><span><?php echo esc_html( $woocommerce->cart->cart_contents_count ); ?> </span></div></a>
 		<?php
 
 		$fragments['a#mobile-cart-link'] = ob_get_clean();
@@ -781,7 +455,7 @@ if ( !function_exists( 'nectar_mobile_woocommerce_header_add_to_cart_fragment' )
 }
 
 
-// Change how many products are displayed per page.
+// change how many products are displayed per page
 global $nectar_options;
 
 $product_hover_alt_image      = ( ! empty( $nectar_options['product_hover_alt_image'] ) ) ? $nectar_options['product_hover_alt_image'] : 'off';
@@ -796,52 +470,35 @@ add_filter(
 	20
 );
 
-// Change the position of add to cart.
+// change the position of add to cart
 remove_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart', 10 );
 
 remove_action( 'woocommerce_before_shop_loop_item_title', 'woocommerce_template_loop_product_thumbnail', 10 );
 
-
-// Product Add to cart styles.
-$product_add_to_cart_style = ( isset($nectar_options['product_add_to_cart_style']) ) ? $nectar_options['product_add_to_cart_style'] : 'default';
-if( 'fullwidth_qty' === $product_add_to_cart_style ) {
-	add_action('woocommerce_before_add_to_cart_button', 'nectar_add_to_cart_single_before', 40);
-}
-
-if( !function_exists('nectar_add_to_cart_single_before') ) {
-	function nectar_add_to_cart_single_before() {
-		echo '<span class="flex-break"></span>';
-	}
-}
-
-
-// Product styles.
 $product_style = ( ! empty( $nectar_options['product_style'] ) ) ? $nectar_options['product_style'] : 'classic';
 
 if ( $product_style === 'classic' ) {
-
+	
 	add_action( 'woocommerce_before_shop_loop_item_title', 'nectar_product_thumbnail_with_cart', 10 );
 	remove_action( 'woocommerce_before_shop_loop_item', 'woocommerce_template_loop_product_link_open', 10 );
 	remove_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_product_link_close', 5 );
-
+	
 } elseif ( $product_style === 'text_on_hover' ) {
-
+	
 	add_action( 'woocommerce_before_shop_loop_item_title', 'nectar_product_thumbnail_with_cart_alt', 10 );
 	remove_action( 'woocommerce_after_shop_loop_item_title', 'woocommerce_template_loop_price', 10 );
 	remove_action( 'woocommerce_after_shop_loop_item_title', 'woocommerce_template_loop_rating', 5 );
 	add_action( 'woocommerce_after_shop_loop_item_title', 'woocommerce_template_loop_price', 5 );
 	add_action( 'woocommerce_after_shop_loop_item_title', 'woocommerce_template_loop_rating', 10 );
-	remove_action( 'woocommerce_before_shop_loop_item', 'woocommerce_template_loop_product_link_open', 10 );
-	remove_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_product_link_close', 5 );
-}
+} 
 elseif ( $product_style === 'material' ) {
-
+	
 	add_action( 'woocommerce_before_shop_loop_item_title', 'nectar_product_thumbnail_material', 10 );
 	remove_action( 'woocommerce_before_shop_loop_item', 'woocommerce_template_loop_product_link_open', 10 );
 	remove_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_product_link_close', 5 );
-}
+} 
 else {
-
+	
 	add_action( 'woocommerce_before_shop_loop_item_title', 'nectar_product_thumbnail_minimal', 10 );
 	remove_action( 'woocommerce_after_shop_loop_item_title', 'woocommerce_template_loop_price', 10 );
 	add_action( 'nectar_woo_minimal_price', 'woocommerce_template_loop_price', 5 );
@@ -850,38 +507,18 @@ else {
 }
 
 
-// Add 3.0 gallery support when using default lightbox option in theme.
+/*add 3.0 gallery support when using default lightbox option in theme*/
 $nectar_product_gal_type = ( ! empty( $nectar_options['single_product_gallery_type'] ) ) ? $nectar_options['single_product_gallery_type'] : 'default';
 
-
-add_theme_support( 'wc-product-gallery-lightbox' );
-
-if( $nectar_product_gal_type !== 'two_column_images' ) {
+if ( $nectar_product_gal_type !== 'ios_slider' ) {
 	add_theme_support( 'wc-product-gallery-zoom' );
-}
-if ( $nectar_product_gal_type === 'default' ) {
+	add_theme_support( 'wc-product-gallery-lightbox' );
+	add_theme_support( 'wc-product-gallery-slider' );
+} else {
+	add_theme_support( 'wc-product-gallery-zoom' );
+	add_theme_support( 'wc-product-gallery-lightbox' );
 	add_theme_support( 'wc-product-gallery-slider' );
 }
-
-// Gallery Styles.
-$product_gallery_style = (isset($nectar_options['single_product_gallery_type'])) ? $nectar_options['single_product_gallery_type'] : 'default';
-
-if( 'left_thumb_slider' === $product_gallery_style ||
-    'left_thumb_sticky_fullwidth' === $product_gallery_style ) {
-	remove_action( 'woocommerce_before_main_content', 'woocommerce_breadcrumb', 20 );
-	add_action( 'woocommerce_single_product_summary', 'woocommerce_breadcrumb', 2 );
-
-}
-
-// Add additional wrapping div.
-add_action( 'woocommerce_before_single_product_summary', 'nectar_left_thumb_slider_wrap_start', 2 );
-add_action( 'woocommerce_after_single_product_summary', 'nectar_woocommerce_close_div', 2 );
-
-function nectar_left_thumb_slider_wrap_start() {
-	echo '<div class="nectar-prod-wrap">';
-}
-
-
 
 if ( ! function_exists( 'nectar_product_thumbnail_with_cart' ) ) {
 
@@ -891,8 +528,11 @@ if ( ! function_exists( 'nectar_product_thumbnail_with_cart' ) ) {
 		global $product_hover_alt_image;
 		global $nectar_quick_view_in_use;
 		?>
+		
 	   <div class="product-wrap">
-			<a href="<?php the_permalink(); ?>"><?php
+
+			<a href="<?php the_permalink(); ?>">	
+							<?php
 
 							$product_second_image = null;
 							if ( $product_hover_alt_image == '1' ) {
@@ -909,10 +549,10 @@ if ( ! function_exists( 'nectar_product_thumbnail_with_cart' ) ) {
 							}
 
 							echo woocommerce_get_product_thumbnail() . $product_second_image;
-							?></a>
+							?>
+			 </a>
 			<?php
 					echo '<div class="product-add-to-cart" data-nectar-quickview="' . esc_attr($nectar_quick_view_in_use) . '">';
-				  	do_action( 'nectar_woocommerce_before_shop_loop_item_add_to_cart' );
 						woocommerce_template_loop_add_to_cart();
 						do_action( 'nectar_woocommerce_before_add_to_cart' );
 					 echo '</div>';
@@ -933,7 +573,7 @@ if ( ! function_exists( 'nectar_product_thumbnail_material' ) ) {
 			global $product_hover_alt_image;
 		 	global $nectar_quick_view_in_use;
 		?>
-
+		
 	   <div class="product-wrap">
 			<?php
 
@@ -951,20 +591,18 @@ if ( ! function_exists( 'nectar_product_thumbnail_material' ) ) {
 				}
 			}
 
-			echo '<a href="' . esc_url( get_permalink() ) . '" aria-label="'.$product->get_name().'">';
+			echo '<a href="' . esc_url( get_permalink() ) . '">';
 			echo woocommerce_get_product_thumbnail() . $product_second_image;
 			echo '</a>';
 			echo '<div class="product-meta">';
 			echo '<a href="' . esc_url( get_permalink() ) . '">';
-			do_action( 'nectar_woocommerce_before_shop_loop_item_title' );
 			do_action( 'woocommerce_shop_loop_item_title' );
 			echo '</a>';
 			do_action( 'woocommerce_after_shop_loop_item_title' );
 
 			echo '<div class="product-add-to-cart" data-nectar-quickview="' . esc_attr($nectar_quick_view_in_use) . '">';
-			  do_action( 'nectar_woocommerce_before_shop_loop_item_add_to_cart' );
 			  woocommerce_template_loop_add_to_cart();
-				do_action( 'nectar_woocommerce_before_add_to_cart' );
+					do_action( 'nectar_woocommerce_before_add_to_cart' );
 			echo '</div></div>';
 			?>
 		   </div>
@@ -981,18 +619,13 @@ if ( ! function_exists( 'nectar_product_thumbnail_minimal' ) ) {
 		global $product;
 		global $woocommerce;
 		global $product_hover_alt_image;
-		global $nectar_quick_view_in_use;
-		global $nectar_options;
-
-		$product_minimal_hover_layout = ( isset( $nectar_options['product_minimal_hover_layout'] ) ) ? esc_html($nectar_options['product_minimal_hover_layout']) : 'default';
+		 global $nectar_quick_view_in_use;
 		?>
 		 <div class="background-color-expand"></div>
 	   <div class="product-wrap">
 			<?php
 
 			$product_second_image = null;
-			$product_second_image_class = '';
-
 			if ( $product_hover_alt_image == '1' ) {
 
 				if ( $woocommerce && version_compare( $woocommerce->version, '3.0', '>=' ) ) {
@@ -1003,67 +636,26 @@ if ( ! function_exists( 'nectar_product_thumbnail_minimal' ) ) {
 
 				if ( isset( $product_attach_ids[0] ) ) {
 					$product_second_image = wp_get_attachment_image( $product_attach_ids[0], 'shop_catalog', false, array( 'class' => 'hover-gallery-image' ) );
-					if($product_second_image) {
-						$product_second_image_class = ' has-hover-image';
-					}
-
 				}
 			}
 
-			// Flex Buttons.
-			if( 'price_visible_flex_buttons' === $product_minimal_hover_layout ) {
-
-				echo '
-				<div class="product-image-wrap'.$product_second_image_class.'">
-					<a href="' . esc_url( get_permalink() ) . '" aria-label="'.$product->get_name().'">';
-					echo woocommerce_get_product_thumbnail() . $product_second_image;
-				echo '</a>
-					<div class="product-add-to-cart" data-nectar-quickview="' . esc_attr($nectar_quick_view_in_use) . '">';
-					do_action( 'nectar_woocommerce_before_shop_loop_item_add_to_cart' );
-					woocommerce_template_loop_add_to_cart();
+			echo '<a href="' . esc_url( get_permalink() ) . '">';
+			echo woocommerce_get_product_thumbnail() . $product_second_image;
+			echo '</a>';
+			echo '<div class="product-meta">';
+			echo '<a href="' . esc_url( get_permalink() ) . '">';
+			do_action( 'woocommerce_shop_loop_item_title' );
+			echo '</a>';
+			do_action( 'woocommerce_after_shop_loop_item_title' );
+			echo '<div class="price-hover-wrap">';
+			do_action( 'nectar_woo_minimal_price' );
+			echo '<div class="product-add-to-cart" data-nectar-quickview="' . esc_attr($nectar_quick_view_in_use) . '">';
+			  woocommerce_template_loop_add_to_cart();
 					do_action( 'nectar_woocommerce_before_add_to_cart' );
-				echo '</div></div>';
-
-				echo '<div class="product-meta">';
-					echo '<div class="product-main-meta">
-						<a href="' . esc_url( get_permalink() ) . '">';
-						do_action( 'nectar_woocommerce_before_shop_loop_item_title' );
-						do_action( 'woocommerce_shop_loop_item_title' );
-					echo '</a>';
-						do_action( 'nectar_woo_minimal_price' );
-					echo '</div>';
-					do_action( 'woocommerce_after_shop_loop_item_title' );
-				echo '</div>';
-
-			}
-			// Default Buttons.
-			else {
-
-				echo '<a href="' . esc_url( get_permalink() ) . '" aria-label="'.$product->get_name().'">';
-					echo woocommerce_get_product_thumbnail() . $product_second_image;
-				echo '</a>';
-
-				echo '<div class="product-meta">';
-				echo '<a href="' . esc_url( get_permalink() ) . '">';
-					do_action( 'nectar_woocommerce_before_shop_loop_item_title' );
-					do_action( 'woocommerce_shop_loop_item_title' );
-				echo '</a>';
-
-				do_action( 'woocommerce_after_shop_loop_item_title' );
-				echo '<div class="price-hover-wrap">';
-				do_action( 'nectar_woo_minimal_price' );
-
-				echo '<div class="product-add-to-cart" data-nectar-quickview="' . esc_attr($nectar_quick_view_in_use) . '">';
-				  do_action( 'nectar_woocommerce_before_shop_loop_item_add_to_cart' );
-				  woocommerce_template_loop_add_to_cart();
-					do_action( 'nectar_woocommerce_before_add_to_cart' );
-				echo '</div>
-				</div>
-			</div>';
-
-			}
-
-			echo '</div>'; // end product-wrap
+			echo '</div></div></div>';
+			?>
+		   </div>
+		<?php
 	}
 }
 
@@ -1073,7 +665,7 @@ if ( ! function_exists( 'nectar_product_thumbnail_with_cart_alt' ) ) {
 
 	function nectar_product_thumbnail_with_cart_alt() {
 		?>
-
+		
 	   <div class="product-wrap">
 			<?php
 			global $product;
@@ -1099,9 +691,8 @@ if ( ! function_exists( 'nectar_product_thumbnail_with_cart_alt' ) ) {
 			?>
 
 			   <div class="bg-overlay"></div>
-			   <a href="<?php the_permalink(); ?>" class="link-overlay" aria-label="<?php echo esc_attr($product->get_name()); ?>"></a>
+			   <a href="<?php the_permalink(); ?>" class="link-overlay"></a>
 			   <div class="text-on-hover-wrap">
-				<?php do_action( 'nectar_woocommerce_before_shop_loop_item_title' ); ?>
 				<?php do_action( 'woocommerce_after_shop_loop_item_title' ); ?>
 				<?php
 
@@ -1112,22 +703,21 @@ if ( ! function_exists( 'nectar_product_thumbnail_with_cart_alt' ) ) {
 				}
 
 				?>
-			</div>
-
+			</div> 
+			
 			<?php do_action( 'nectar_woocommerce_before_add_to_cart' ); ?>
 
 
 		   </div>
 		   <a href="<?php the_permalink(); ?>"><?php do_action( 'woocommerce_shop_loop_item_title' ); ?></a>
 		<?php
-		do_action( 'nectar_woocommerce_before_shop_loop_item_add_to_cart' );
 		woocommerce_template_loop_add_to_cart();
 	}
 }
 
 
 if ( !function_exists( 'nectar_header_cart_output' ) ) {
-
+	
 	function nectar_header_cart_output() {
 		global $woocommerce;
 		global $nectar_options;
@@ -1141,34 +731,31 @@ if ( !function_exists( 'nectar_header_cart_output' ) ) {
 
 				$nav_cart_style = ( ! empty( $nectar_options['ajax-cart-style'] ) ) ? $nectar_options['ajax-cart-style'] : 'default';
 			?>
-
+				
 			<div class="cart-outer" data-user-set-ocm="<?php echo esc_attr( $userSetSideWidgetArea ); ?>" data-cart-style="<?php echo esc_attr( $nav_cart_style ); ?>">
 				<div class="cart-menu-wrap">
 					<div class="cart-menu">
-						<a class="cart-contents" href="<?php echo wc_get_cart_url(); ?>"><div class="cart-icon-wrap"><i class="icon-salient-cart" aria-hidden="true"></i> <div class="cart-wrap"><span><?php echo esc_html( $woocommerce->cart->cart_contents_count ); ?> </span></div> </div></a>
+						<a class="cart-contents" href="<?php echo wc_get_cart_url(); ?>"><div class="cart-icon-wrap"><i class="icon-salient-cart"></i> <div class="cart-wrap"><span><?php echo esc_html( $woocommerce->cart->cart_contents_count ); ?> </span></div> </div></a>
 					</div>
 				</div>
-
-				<?php if( 'slide_in_click' !== $nav_cart_style ) { ?>
-					<div class="cart-notification">
-						<span class="item-name"></span> <?php echo esc_html__( 'was successfully added to your cart.', 'salient' ); ?>
-					</div>
-				<?php } ?>
-
+				
+				<div class="cart-notification">
+					<span class="item-name"></span> <?php echo esc_html__( 'was successfully added to your cart.', 'salient' ); ?>
+				</div>
+				
 				<?php
-				if ( $nav_cart_style !== 'slide_in' && $nav_cart_style !== 'slide_in_click' ) {
+				if ( $nav_cart_style != 'slide_in' ) {
 					// Check for WooCommerce 2.0 and display the cart widget
 					if ( version_compare( WOOCOMMERCE_VERSION, '2.0.0' ) >= 0 ) {
-						$instance_params = ( defined('ICL_SITEPRESS_VERSION') ) ? array('wpml_language' => 'all') : array();
-						the_widget( 'WC_Widget_Cart', $instance_params );
+						the_widget( 'WC_Widget_Cart' );
 					} else {
 						the_widget( 'WooCommerce_Widget_Cart', 'title= ' );
 					}
 				}
 				?>
-
+					
 			</div>
-
+				
 			<?php
 		}
 
@@ -1178,117 +765,7 @@ if ( !function_exists( 'nectar_header_cart_output' ) ) {
 	}
 }
 
-
-// Single product price typography.
-add_filter( 'woocommerce_product_price_class', 'nectar_single_product_price_class' );
-if( !function_exists('nectar_single_product_price_class') ) {
-	function nectar_single_product_price_class($class) {
-		global $nectar_options;
-
-		$inherit_typography = 'default';
-		if( isset($nectar_options['product_price_typography'] ) &&
-		    'default' !== $nectar_options['product_price_typography'] ) {
-			$inherit_typography = $nectar_options['product_price_typography'];
-		}
-
-		return $class . ' nectar-inherit-'.esc_attr($inherit_typography);
-	}
-}
-
-// Single Product Additional Information Tab.
-if( isset($nectar_options['woo_hide_product_additional_info_tab']) && '1' === $nectar_options['woo_hide_product_additional_info_tab'] ) {
-	add_filter( 'woocommerce_product_tabs', 'nectar_remove_additional_info_product_tab', 10 );
-}
-
-if( !function_exists('nectar_remove_additional_info_product_tab') ) {
-	function nectar_remove_additional_info_product_tab( $tabs ) {
-	    unset( $tabs['additional_information'] );
-	    return $tabs;
-	}
-}
-
-
-// Single Product Reviews Title.
-add_filter('woocommerce_reviews_title','nectar_single_product_review_with_average', 9);
-
-if( !function_exists('nectar_single_product_review_with_average') ) {
-	function nectar_single_product_review_with_average($title) {
-
-		global $product;
-		global $nectar_options;
-
-		$woo_review_style = ( isset($nectar_options['product_reviews_style']) && !empty($nectar_options['product_reviews_style']) ) ? $nectar_options['product_reviews_style'] : 'default';
-
-		$count = $product->get_review_count();
-
-		if( $count && wc_review_ratings_enabled() && 'off_canvas' === $woo_review_style && function_exists('wc_get_rating_html') ) {
-
-			$average       = $product->get_average_rating();
-			$reviews_title = sprintf( esc_html( _n( 'Based on %1$s review', 'Based on %1$s reviews', $count, 'salient' ) ), esc_html( $count ) );
-
-			$nectar_title = '<div class="nectar-average-count-wrap">';
-			$nectar_title .= '<span class="nectar-average-count">' . esc_html($average ) . '</span>';
-			$nectar_title .= '<div>' . wc_get_rating_html( $average ) . '</div>';
-			$nectar_title .= '<span class="total-num">' . $reviews_title .'</span>';
-			$nectar_title .= '</div>';
-
-			$nectar_title .= '<a class="nectar-button large regular accent-color regular-button nectar-product-reviews-trigger" href="#" data-color-override="false" data-hover-color-override="false"><span>'.esc_html__('Write a Review','salient').'</span></a>';
-
-			return $nectar_title;
-
-		}
-
-		return $title;
-	}
-}
-
-add_filter('nectar_woocommerce_no_reviews_title','nectar_single_product_review_empty', 10);
-
-if( !function_exists('nectar_single_product_review_empty') ) {
-	function nectar_single_product_review_empty($title) {
-
-		global $product;
-		global $nectar_options;
-
-		$woo_review_style = ( isset($nectar_options['product_reviews_style']) && !empty($nectar_options['product_reviews_style']) ) ? $nectar_options['product_reviews_style'] : 'default';
-
-		if( wc_review_ratings_enabled() && 'off_canvas' === $woo_review_style ) {
-
-			$nectar_title = '<div class="nectar-no-reviews">';
-			$nectar_title .= '<a class="nectar-button large regular accent-color regular-button nectar-product-reviews-trigger" href="#" data-color-override="false" data-hover-color-override="false"><span>'.esc_html__('Write a Review','salient').'</span></a></div>';
-
-			return $title . $nectar_title;
-
-		}
-
-		return $title;
-	}
-}
-
-
-
-// Quantity buttons
-add_action( 'woocommerce_before_quantity_input_field', 'nectar_quantity_markup_mod_before', 10 );
-add_action( 'woocommerce_after_quantity_input_field', 'nectar_quantity_markup_mod_after', 10 );
-
-
-if( !function_exists('nectar_quantity_markup_mod_before') ) {
-	function nectar_quantity_markup_mod_before() {
-		echo '<input type="button" value="-" class="minus" />';
-	}
-}
-
-if( !function_exists('nectar_quantity_markup_mod_after') ) {
-	function nectar_quantity_markup_mod_after() {
-		echo '<input type="button" value="+" class="plus" />';
-	}
-}
-
-
-
-if( !is_admin() ) {
-	add_action( 'wp', 'nectar_woo_social_add' );
-}
+add_action( 'wp', 'nectar_woo_social_add' );
 
 if ( !function_exists( 'nectar_woo_social_add' ) ) {
 	function nectar_woo_social_add() {
@@ -1297,29 +774,29 @@ if ( !function_exists( 'nectar_woo_social_add' ) ) {
 		global $woocommerce;
 
 		$social_style = get_option( 'salient_social_button_style','fixed' );
-
+		
 		if ( empty( $nectar_options['product_tab_position'] ) || $nectar_options['product_tab_position'] === 'in_sidebar' ) {
-
+				
 				if( $woocommerce && $social_style === 'fixed' && is_product() ) {
 					add_action( 'nectar_shop_fixed_social', 'nectar_review_quickview', 10 );
 				} else {
 					add_action( 'woocommerce_after_add_to_cart_form', 'nectar_review_quickview', 10 );
 				}
-
+			
 		} else {
-
+				
 			if( $woocommerce && $social_style === 'fixed' && is_product() ) {
 				add_action( 'nectar_shop_fixed_social', 'nectar_review_quickview', 10 );
 			} else {
 				add_action( 'woocommerce_single_product_summary', 'nectar_review_quickview', 100 );
 			}
-
+				
 			add_action( 'woocommerce_after_single_product_summary', 'nectar_woo_clearfix', 7 );
-
+			
 		}
 
 	}
-
+	
 }
 
 
@@ -1331,7 +808,7 @@ if ( !function_exists( 'nectar_woo_clearfix' ) ) {
 
 
 if ( !function_exists( 'nectar_review_quickview' ) ) {
-
+	
 	function nectar_review_quickview() {
 		global $product, $nectar_options, $post;
 
@@ -1353,14 +830,6 @@ global $pagenow;
 if ( is_admin() && isset( $_GET['activated'] ) && $pagenow === 'themes.php' ) {
 	add_action( 'init', 'nectar_woocommerce_image_dimensions', 1 ); }
 
-add_filter('woocommerce_review_gravatar_size','nectar_woo_review_grav_size');
-
-// Gravatar
-if( !function_exists('nectar_woo_review_grav_size') ) {
-	function nectar_woo_review_grav_size($size) {
-		return '80';
-	}
-}
 
 // Define image sizes
 if ( !function_exists( 'nectar_woocommerce_image_dimensions' ) ) {
@@ -1389,129 +858,6 @@ if ( !function_exists( 'nectar_woocommerce_image_dimensions' ) ) {
 	}
 }
 
-if( isset( $nectar_options['single_product_custom_image_dimensions'] ) &&
-    '1' === $nectar_options['single_product_custom_image_dimensions'] ) {
-
-	add_filter( 'woocommerce_get_image_size_single', 'nectar_woocommerce_user_defined_single_image_size' );
-	add_filter( 'woocommerce_get_image_size_shop_single', 'nectar_woocommerce_user_defined_single_image_size' );
-	add_filter( 'woocommerce_get_image_size_woocommerce_single', 'nectar_woocommerce_user_defined_single_image_size' );
-}
-
-if( !function_exists('nectar_woocommerce_user_defined_single_image_size') ) {
-	function nectar_woocommerce_user_defined_single_image_size() {
-
-		global $nectar_options;
-
-		$custom_gallery_width = 800;
-		if( isset($nectar_options['single_product_gallery_image_dimensions']) &&
-		    isset($nectar_options['single_product_gallery_image_dimensions']['width']) &&
-				!empty($nectar_options['single_product_gallery_image_dimensions']['width']) ) {
-			$custom_gallery_width = intval($nectar_options['single_product_gallery_image_dimensions']['width']);
-		}
-
-		$custom_gallery_height = 600;
-		if( isset($nectar_options['single_product_gallery_image_dimensions']) &&
-		    isset($nectar_options['single_product_gallery_image_dimensions']['height']) &&
-				!empty($nectar_options['single_product_gallery_image_dimensions']['height']) ) {
-			$custom_gallery_height = intval($nectar_options['single_product_gallery_image_dimensions']['height']);
-		}
-
-		$size = array(
-				'width'  => $custom_gallery_width,
-				'height' => $custom_gallery_height,
-				'crop'   => 1
-		);
-
-		return $size;
-	}
-}
-
-
-
-add_action('wp', 'nectar_check_product_lazy_loading', 10);
-
-if( !function_exists('nectar_check_product_lazy_loading') ) {
-
-	function nectar_check_product_lazy_loading() {
-
-		global $nectar_options;
-
-		if( !is_admin() && NectarLazyImages::activate_lazy() &&
-		isset( $nectar_options['product_lazy_load_images'] ) &&
-		!empty( $nectar_options['product_lazy_load_images'] ) &&
-		'1' === $nectar_options['product_lazy_load_images'] ) {
-
-			add_filter('wp_get_attachment_image_attributes','nectar_lazyload_woocommerce_imgs', 10, 5 );
-
-		}
-
-	}
-}
-
-
-if( !function_exists('nectar_lazyload_woocommerce_imgs') ) {
-
-	function nectar_lazyload_woocommerce_imgs( $attr, $attachment, $size ) {
-
-		global $post;
-
-		if( class_exists( 'WooCommerce' ) &&
-		isset($post->post_type) &&
-		'product' === $post->post_type &&
-		isset($attr['class']) ) {
-
-			if( strpos($attr['class'],'woocommerce_thumbnail') ||
-			strpos($attr['class'],'shop_single') ||
-			strpos($attr['class'],'shop_thumbnail') ||
-			strpos($attr['class'],'over-gallery-imag') ) {
-
-				// Skip first on shop single.
-				if( strpos($attr['class'],'shop_single') && 0 == NectarLazyImages::$woo_single_main_count ) {
-					NectarLazyImages::$woo_single_main_count = 1;
-					return $attr;
-				}
-				else if( strpos($attr['class'],'shop_thumbnail') && 0 == NectarLazyImages::$woo_single_thumb_count ) {
-					NectarLazyImages::$woo_single_thumb_count = 1;
-					return $attr;
-				}
-
-				// Alter srcset.
-				if( isset($attr['srcset']) ) {
-					$temp_srcset = $attr['srcset'];
-					unset($attr['srcset']);
-					$attr['data-nectar-img-srcset'] = $temp_srcset;
-				}
-
-				// Alter Src.
-				if( isset($attr['src']) ) {
-					$temp_src = $attr['src'];
-
-					if( !strpos($attr['class'],'over-gallery-imag') ) {
-						$dimensions = wp_get_attachment_image_src($attachment->ID, $size);
-						if( $dimensions ) {
-							$attr['src'] = "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20".$dimensions[1].'%20'.$dimensions[2]."'%2F%3E";
-						}
-					}
-
-					$attr['data-nectar-img-src'] = $temp_src;
-				}
-
-				// Alter Class.
-				if( isset($attr['class']) ) {
-					$attr['class'] = $attr['class'] . ' nectar-lazy';
-				}
-
-			} // limit to shop only.
-
-		} // Products only.
-
-		return $attr;
-
-	}
-}
-
-
-
 // Remove AJAX for products with a large amoutn of variations
 if ( !function_exists( 'nectar_wc_ajax_variation_thresh' ) ) {
 	function nectar_wc_ajax_variation_thresh( $qty, $product ) {
@@ -1519,26 +865,3 @@ if ( !function_exists( 'nectar_wc_ajax_variation_thresh' ) ) {
 	}
 }
 add_filter( 'woocommerce_ajax_variation_threshold', 'nectar_wc_ajax_variation_thresh', 10, 2 );
-
-
-// Third Party.
-
-// WPML.
-add_filter( 'wcml_multi_currency_ajax_actions', 'add_action_to_multi_currency_ajax', 10, 1 );
-
-function add_action_to_multi_currency_ajax( $ajax_actions ) {
-    $ajax_actions[] = 'nectar_woo_get_product';
-    return $ajax_actions;
-}
-
-
-// YITH Ajax filters.
-if( class_exists('YITH_WCAN_Frontend_Premium') ) {
-	add_filter('salient_woocommerce_sidebar_toggles', 'salient_remove_woocommerce_sidebar_toggles');
-}
-
-if( !function_exists('salient_remove_woocommerce_sidebar_toggles') ) {
-	function salient_remove_woocommerce_sidebar_toggles() {
-		return false;
-	}
-}

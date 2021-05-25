@@ -4,45 +4,6 @@ Description: Styles loaded when using a page builder column
 that has a border style set.
 */
 
-
-@media only screen and (min-width:1000px){
-
-  .wpb_column[data-border-animation="true"] .vc_column-inner > .border-wrap >.border-top,
-  .wpb_column[data-border-animation="true"] .vc_column-inner > .border-wrap >.border-bottom{
-    transition:transform 1s cubic-bezier(0.19,1,0.22,1);
-    transform:scaleX(0)
-  }
-  .wpb_column[data-border-animation="true"] .vc_column-inner > .border-wrap >.border-left,
-  .wpb_column[data-border-animation="true"] .vc_column-inner > .border-wrap >.border-right{
-    -webkit-transition:transform 1s cubic-bezier(0.19,1,0.22,1);
-    -webkit-transform:scaleY(0);
-    transition:transform 1s cubic-bezier(0.19,1,0.22,1);
-    transform:scaleY(0)
-  }
-}
-
-.wpb_column[data-border-animation="true"] .vc_column-inner > .border-wrap.animation > .border-top,
-.wpb_column[data-border-animation="true"] .vc_column-inner > .border-wrap.animation > .border-bottom {
-  transform: scaleX(1);
-}
-.wpb_column[data-border-animation="true"] .vc_column-inner > .border-wrap.animation > .border-top {
-  transform-origin: left;
-}
-.wpb_column[data-border-animation="true"] .vc_column-inner > .border-wrap.animation > .border-bottom {
-  transform-origin: right;
-}
-.wpb_column[data-border-animation="true"] .vc_column-inner > .border-wrap.animation > .border-left,
-.wpb_column[data-border-animation="true"] .vc_column-inner > .border-wrap.animation > .border-right {
-  transform: scaleY(1);
-}
-.wpb_column[data-border-animation="true"] .vc_column-inner > .border-wrap.animation > .border-left {
-  transform-origin: bottom;
-}
-.wpb_column[data-border-animation="true"] .vc_column-inner > .border-wrap.animation > .border-right {
-  transform-origin: top;
-}
-
-
 .wpb_column[data-border-style*="double"] > .vc_column-inner > .border-wrap >span{
   border-style:solid
 }

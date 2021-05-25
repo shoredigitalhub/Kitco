@@ -262,9 +262,7 @@ https://github.com/imakewebthings/waypoints/blob/master/licenses.txt
 
   /* Private */
   Context.prototype.handleResize = function() {
-    setTimeout(function(){
-        Waypoint.Context.refreshAll()
-    },150);
+    Waypoint.Context.refreshAll()
   }
 
   /* Private */
@@ -278,7 +276,7 @@ https://github.com/imakewebthings/waypoints/blob/master/licenses.txt
         backward: 'left'
       },
       vertical: {
-        newScroll: window.nectarDOMInfo.scrollTop,
+        newScroll: this.adapter.scrollTop(),
         oldScroll: this.oldScroll.y,
         forward: 'down',
         backward: 'up'

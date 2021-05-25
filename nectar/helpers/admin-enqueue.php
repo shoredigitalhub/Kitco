@@ -44,10 +44,7 @@ if ( ! function_exists( 'nectar_enqueue_media' ) ) {
  * @since 1.0
  */
 function nectar_metabox_styles() {
-	
-	$nectar_theme_version = nectar_get_theme_version();
-	
-	wp_enqueue_style( 'nectar_meta_css', NECTAR_FRAMEWORK_DIRECTORY . 'assets/css/nectar_meta.css', '', $nectar_theme_version );
+	wp_enqueue_style( 'nectar_meta_css', NECTAR_FRAMEWORK_DIRECTORY . 'assets/css/nectar_meta.css', '', '12.1.1' );
 }
 
 
@@ -58,16 +55,14 @@ function nectar_metabox_styles() {
  */
 function nectar_metabox_scripts() {
 	
-	$nectar_theme_version = nectar_get_theme_version();
-	
-	wp_register_script( 'nectar-upload', NECTAR_FRAMEWORK_DIRECTORY . 'assets/js/nectar-meta.js', array( 'jquery' ), $nectar_theme_version );
+	wp_register_script( 'nectar-upload', NECTAR_FRAMEWORK_DIRECTORY . 'assets/js/nectar-meta.js', array( 'jquery' ), '12.1.2' );
 	wp_enqueue_script( 'nectar-upload' );
 	wp_localize_script( 'redux-opts-field-upload-js', 'redux_upload', array( 'url' => get_template_directory_uri() . '/nectar/redux-framework/ReduxCore/inc/fields/upload/blank.png' ) );
 
 
 		wp_enqueue_style( 'wp-color-picker' );
 
-
+		
 		wp_enqueue_script(
 			'nectar-add-media',
 			NECTAR_FRAMEWORK_DIRECTORY . 'assets/js/add-media.js',
@@ -75,7 +70,7 @@ function nectar_metabox_scripts() {
 			'10.1',
 			true
 		);
-
+		
 		wp_enqueue_script(
 			'nectar-colorpicker-js',
 			NECTAR_FRAMEWORK_DIRECTORY . 'assets/js/colorpicker.js',
@@ -84,7 +79,7 @@ function nectar_metabox_scripts() {
 			true
 		);
 		 wp_enqueue_media();
-
+	
 
 }
 

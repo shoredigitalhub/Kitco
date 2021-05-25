@@ -4,7 +4,7 @@
 *
 * Used when "Classic" masonry style is selected.
 *
-* @version 12.5
+* @version 12.0
 */
 
 // Exit if accessed directly
@@ -13,22 +13,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 global $post;
-global $nectar_options;
 
 ?>
 
 <div class="post-meta">
   
   <div class="date">
-    <?php 
-    $date_functionality = (isset($nectar_options['post_date_functionality']) && !empty($nectar_options['post_date_functionality'])) ? $nectar_options['post_date_functionality'] : 'published_date';
-    
-    if( 'last_editied_date' === $date_functionality ) {
-      $date = get_the_modified_date();
-    } else {
-      $date = get_the_date();
-    }
-    echo esc_html($date); ?>
+    <?php echo get_the_date(); ?>
   </div>
   
   <div class="nectar-love-wrap">

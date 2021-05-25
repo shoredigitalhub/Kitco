@@ -7,7 +7,7 @@
  /* global jQuery */
  
 jQuery(document).ready(function($){
-
+	
 	"use strict";
 	
 	/*----------------------------------------------------------------------------------*/
@@ -256,14 +256,11 @@ jQuery(document).ready(function($){
 	
 	
 	// BG type
+	$('a[rel-id=_nectar_media_upload_mp4], a[rel-id=_nectar_media_upload_ogv], a[rel-id=_nectar_media_upload_webm], a[rel-id=_nectar_slider_image], a[rel-id=_nectar_header_bg]').parents('tr').hide();
+	
 	function backgroundType() {
 		
-    var $active = '';
-    $('label[for=_nectar_slider_bg_type]').parents('tr').find('.buttonset input').each(function(){
-      if($(this).prop('checked') == true) {
-        $active = $(this).attr('id');
-      }
-    });
+		var $active = $('label[for=_nectar_slider_bg_type]').parents('tr').find('.buttonset .ui-state-active').attr('for');
 		
 		if($active == 'nectar_meta_video_bg'){
 			
@@ -298,16 +295,10 @@ jQuery(document).ready(function($){
 	
 	
 	////link tpye
-	//$('td.inline, label[for=_nectar_slider_entire_link], label[for=_nectar_slider_video_popup]').parents('tr').hide();
+	$('td.inline, label[for=_nectar_slider_entire_link], label[for=_nectar_slider_video_popup]').parents('tr').hide();
 	
-	function linkType() {
-		var $active = '';
-    $('label[for=_nectar_slider_link_type]').parents('tr').find('.buttonset input').each(function(){
-      if($(this).prop('checked') == true) {
-        $active = $(this).attr('id');
-      }
-    });
-    
+	function linkType(){
+		var $active = $('label[for=_nectar_slider_link_type]').parents('tr').find('.buttonset .ui-state-active').attr('for');
 		if($active == 'nectar_meta_button_links'){
 			$('td.inline').parents('tr').fadeIn();
 			$('label[for=_nectar_slider_entire_link], label[for=_nectar_slider_video_popup]').parents('tr').hide();
@@ -385,11 +376,10 @@ jQuery(document).ready(function($){
 	}
 	$('#_nectar_header_parallax').on('click', parallaxHeader);
 	
-  linkType();
-  backgroundType();
-  
 	$(window).on('load', function(){
 		checkFormat();
+		backgroundType();
+		linkType();
 		fullscreenHeight();
 		checkButtonStyle();
 		boxRoll();
@@ -827,13 +817,5 @@ jQuery(document).ready(function($){
 			$(this).addClass( 'activated');
 		}
 	});
-  
-  
-  // WPBakery wp 5.6 compatibility disabled field temp fix.
-  $('body').on("keyup change input", "[data-vc-disable-empty]", function() {
-    var _this = $(this),
-        $target = $(_this.data("vcDisableEmpty"));
-        _this.val().length ? $target.prop( "disabled", false ) : $target.prop( "disabled", true );
-  });
 	
 });

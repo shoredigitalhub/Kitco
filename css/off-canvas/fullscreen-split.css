@@ -41,7 +41,7 @@ Description: Off canvas menu set to "Fullscreen Split" in theme options
  padding-bottom: 30px
 }
 
-[data-permanent-transparent="1"] #slide-out-widget-area.fullscreen-split .inner > .container {
+[data-permanent-transparent="1"] #slide-out-widget-area.fullscreen-split .inner > .container { 
   padding-top: 0;
 }
 
@@ -66,7 +66,6 @@ Description: Off canvas menu set to "Fullscreen Split" in theme options
   display: -webkit-flex;
   display: flex;
   width: 50%;
-  padding-right: 20px;
   align-items: flex-start;
   flex-flow: column;
 }
@@ -74,7 +73,6 @@ Description: Off canvas menu set to "Fullscreen Split" in theme options
 #slide-out-widget-area.fullscreen-split .right-side {
   display: -webkit-flex;
   display: flex;
-  padding-left: 20px;
   width: 50%;
   align-items: flex-end;
   justify-content: center;
@@ -101,18 +99,18 @@ Description: Off canvas menu set to "Fullscreen Split" in theme options
   visibility: hidden;
 }
 
-#slide-out-widget-area-bg{
+#slide-out-widget-area-bg{ 
   -webkit-transition: opacity 0.55s ease;
   transition: opacity 0.55s ease;
-  opacity: 0;
+  opacity: 0; 
 }
 
-#slide-out-widget-area.fullscreen-split .right-side {
+#slide-out-widget-area.fullscreen-split .right-side { 
   -webkit-transition: opacity 0.25s ease, transform 0.01s cubic-bezier(.2,.75,.5,1) 0.45s;
   transition: opacity 0.25s ease, transform 0.01s cubic-bezier(.2,.75,.5,1) 0.45s;
   -webkit-transform: translateY(35px);
   transform: translateY(35px);
-  opacity: 0;
+  opacity: 0; 
 }
 
 #slide-out-widget-area.fullscreen-split.open .right-side {
@@ -123,7 +121,7 @@ Description: Off canvas menu set to "Fullscreen Split" in theme options
   transition: opacity 0.5s ease 0.3s, transform 0.85s cubic-bezier(.2,.75,.5,1) 0.3s;
 }
 
-#slide-out-widget-area .off-canvas-menu-container > ul > li {
+#slide-out-widget-area .off-canvas-menu-container > ul > li { 
   -webkit-transition: opacity 0.25s cubic-bezier(.2,.75,.5,1), transform 0.01s cubic-bezier(.2,.75,.5,1) 0.45s;
   transition: opacity 0.25s cubic-bezier(.2,.75,.5,1), transform 0.01s cubic-bezier(.2,.75,.5,1) 0.45s;
   -webkit-transform: translateY(40px);
@@ -132,7 +130,7 @@ Description: Off canvas menu set to "Fullscreen Split" in theme options
   display: block;
 }
 
-#slide-out-widget-area.open .off-canvas-menu-container > ul > li {
+#slide-out-widget-area.open .off-canvas-menu-container > ul > li { 
   -webkit-transition: opacity 0.5s ease 0.38s, transform 0.85s cubic-bezier(.2,.75,.5,1) 0.2s;
   transition: opacity 0.5s ease 0.38s, transform 0.85s cubic-bezier(.2,.75,.5,1) 0.2s;
   -webkit-transform: translateY(0);
@@ -152,27 +150,6 @@ Description: Off canvas menu set to "Fullscreen Split" in theme options
 #slide-out-widget-area.open .off-canvas-menu-container li:nth-child(10) {transition-delay: 0.34s; }
 #slide-out-widget-area.open .off-canvas-menu-container li:nth-child(11) {transition-delay: 0.36s; }
 #slide-out-widget-area.open .off-canvas-menu-container li:nth-child(12) {transition-delay: 0.38s; }
-
-#slide-out-widget-area .off-canvas-menu-container .sub-menu .nectar-menu-item-with-icon {
-  margin: 5px 0;
-}
-#slide-out-widget-area[data-dropdown-func].fullscreen-split .off-canvas-menu-container .sub-menu .nectar-extra-menu-item-spacing {
-  margin: 15px 0;
-}
-#slide-out-widget-area .inner .off-canvas-menu-container li a .item_desc {
-  display: block;
-}
-
-#slide-out-widget-area .nectar-header-text-content,
-#slide-out-widget-area .secondary-header-text {
-  opacity: 0;
-  -webkit-transition: opacity 0.5s ease;
-  transition: opacity 0.5s ease;
-}
-#slide-out-widget-area.open .nectar-header-text-content,
-#slide-out-widget-area.open .secondary-header-text {
-  opacity: 1;
-}
 
 #slide-out-widget-area-bg.open {
   -webkit-transition: opacity 0.3s ease;
@@ -195,12 +172,8 @@ Description: Off canvas menu set to "Fullscreen Split" in theme options
   transition: color 0.37s cubic-bezier(0.52, 0.01, 0.16, 1);
   display: inline-block;
 }
-#slide-out-widget-area.fullscreen-split .off-canvas-menu-container li small {
-   display:block;
-   margin: 0 0 5px 0;
-}
 
-#slide-out-widget-area.fullscreen-split .off-canvas-menu-container li a:after {
+#slide-out-widget-area.fullscreen-split .inner .off-canvas-menu-container li a:after {
   transform-origin: left;
   pointer-events: none;
   bottom: -2px;
@@ -211,12 +184,8 @@ Description: Off canvas menu set to "Fullscreen Split" in theme options
 
 #slide-out-widget-area[data-dropdown-func].fullscreen-split .inner .off-canvas-menu-container li li a {
   font-size: 18px;
-  line-height: 26px;
+  line-height: 24px;
 }
-#slide-out-widget-area[data-dropdown-func].fullscreen-split .inner .off-canvas-menu-container li li {
-  margin: 5px 0;
-}
-
 
 #slide-out-widget-area.fullscreen-split .off-canvas-menu-container li ul {
   margin-left: 10px;
@@ -227,14 +196,8 @@ Description: Off canvas menu set to "Fullscreen Split" in theme options
   font-size: 24px;
 }
 
-#slide-out-widget-area[data-dropdown-func].fullscreen-split .off-canvas-menu-container > ul > li > ul > li:first-child {
+#slide-out-widget-area.fullscreen-split .off-canvas-menu-container > ul > li > ul > li:first-child {
   margin-top: 14px;
-}
-#slide-out-widget-area[data-dropdown-func].fullscreen-split .off-canvas-menu-container > ul > li ul > li:last-child {
-  margin-bottom: 0;
-}
-#slide-out-widget-area.fullscreen-split .off-canvas-menu-container > ul > li .widget-area-active {
-  margin: 14px 0;
 }
 #slide-out-widget-area.fullscreen-split .off-canvas-menu-container > ul > li {
   margin-bottom: 14px;
@@ -258,27 +221,25 @@ Description: Off canvas menu set to "Fullscreen Split" in theme options
 }
 
 @media only screen and (max-width: 690px) {
-
+  
   #slide-out-widget-area.fullscreen-split .left-side,
   #slide-out-widget-area.fullscreen-split .right-side {
     width: 100%;
-    padding-right: 0;
-    padding-left: 0;
     display: block;
   }
-
+  
   #slide-out-widget-area.fullscreen-split .right-side {
     padding-top: 10px;
   }
-
+  
   #slide-out-widget-area.fullscreen-split .off-canvas-menu-container > ul > li {
     margin-bottom: 8px;
   }
-
+  
   #slide-out-widget-area.fullscreen-split .right-side-inner > * {
     margin-top: 35px;
   }
-
+  
   #slide-out-widget-area.fullscreen-split .inner > .container {
     display: block;
   }

@@ -402,7 +402,6 @@ body .team-member[data-style="bio_fullscreen"] .team-meta .arrow-end{
     position:fixed;
     right:0;
     top:0;
-    pointer-events: none;
     background-color:rgba(0,0,0,0.1)
 }
 .nectar_team_member_overlay .team_member_image{
@@ -435,21 +434,8 @@ body .team-member[data-style="bio_fullscreen"] .team-meta .arrow-end{
     display: -webkit-box;
     display: -webkit-flex;
     display: flex;
+    overflow: hidden;
 }
-
-.nectar_team_member_overlay::-webkit-scrollbar {
-	background-color: rgba(0, 0, 0, 0.07);
-  width: 10px;
-}
-.nectar_team_member_overlay::-webkit-scrollbar:hover {
-  background-color: rgba(0, 0, 0, 0.09);
-}
-.nectar_team_member_overlay::-webkit-scrollbar-thumb {
-		background: rgba(0,0,0,0.25);
-  background-clip: padding-box;
-  min-height: 10px;
-}
-
 .nectar_team_member_overlay .bottom_meta a {
     display: inline-block;
     color: inherit;
@@ -465,21 +451,24 @@ body .team-member[data-style="bio_fullscreen"] .team-meta .arrow-end{
     color: inherit;
 }
 .nectar_team_member_overlay .team_member_details{
-    width: 100%;
+   width:50%;
     left:0;
     position:relative;
-    padding: 8% 60% 4% 10%;
-    overflow-y: scroll;
+    padding:3% 10%;
     margin: auto 0;
-    max-height: 100vh;
 }
-
+.using-mobile-browser .nectar_team_member_overlay .team_member_details {
+    height: 100vh;
+    overflow: scroll;
+}
 @media only screen and (max-width: 690px) {
     .nectar_team_member_overlay .team_member_details{
         padding:10% 10%;
    }
 }
-
+.nectar_team_member_overlay .team_member_details .bio-inner {
+    height: 100%
+}
 .nectar_team_member_overlay .team_member_details .title{
    line-height:20px;
     margin-bottom:30px
@@ -573,7 +562,7 @@ body .team-member[data-style="bio_fullscreen"] .team-meta .arrow-end{
     text-align:center;
     line-height:88px;
     font-size:24px;
-    z-index:10001;
+    z-index:10000;
     opacity:0;
     -webkit-transition:opacity 0.3s;
     transition:opacity 0.3s;
@@ -658,7 +647,7 @@ body .team-member[data-style="bio_fullscreen"] .team-meta .arrow-end{
         width: 35%;
    }
     .nectar_team_member_overlay .team_member_details {
-        padding-right: 45%;
+        width: 65%;
    }
     .team-member[data-style="meta_overlaid"] .team-member-image {
         height: 500px;
@@ -678,7 +667,12 @@ body .team-member[data-style="bio_fullscreen"] .team-meta .arrow-end{
     .nectar_team_member_overlay .team_member_picture {
         display: none;
    }
-
+    .nectar_team_member_overlay {
+        overflow-y: auto;
+   }
+    .nectar_team_member_overlay .inner-wrap {
+        overflow: visible;
+   }
 }
 @media only screen and (min-width : 1px) and (max-width : 999px) {
     .nectar-close-indicator {
@@ -754,4 +748,16 @@ html.nectar-no-scrolling {
     overflow: hidden;
     height: 100vh;
 }
-
+body.nectar-no-scrolling .nectar_team_member_overlay .team_member_details {
+    margin: 0;
+    overflow: visible;
+}
+body.nectar-no-scrolling .nectar_team_member_overlay .inner-wrap, 
+body.nectar-no-scrolling .nectar_team_member_overlay .team_member_details .bio-inner {
+    height: auto;
+}
+@media only screen and (min-width: 690px) {
+    body.nectar-no-scrolling .nectar_team_member_overlay .team_member_details {
+        overflow-y: scroll;
+   }
+}
